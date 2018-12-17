@@ -1,0 +1,57 @@
+server:
+  port: 8765
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+  application:
+    name: feign-consumer
+#    服务追踪服务端url
+  zipkin:
+    base-url: http://localhost:8778
+#    feign启用短路起
+feign:
+  httpclient:
+    enabled: true
+  hystrix:
+    enabled: true
+#    Spring Cloud Feign支持对请求和响应进行GZIP压缩，以提高通信效率，
+  compression:
+  # 配置请求GZIP压缩
+    request:
+      enabled: true
+      # 配置压缩支持的MIME TYPE,默认就是text/xml,application/xml,application/json
+      mime-types: text/xml,application/xml,application/json
+      # 配置压缩数据大小的下限,默认是2048
+      min-request-size: 2048
+ # 配置X响应GZIP压缩
+    response:
+      enabled: true
+  # 配置压缩支持的MIME TYPE
+
+# 开启日志 格式为logging.level.+Feign客户端路径
+#logging.level.org.sang.HelloService=debug
+#，使用这个还需要配置bean
+#@Bean
+#Logger.Level feignLoggerLevel() {
+#    return Logger.Level.FULL;
+#}
+
+ribbon:
+  ReadTimeout: 8000
+  ConnectTimeout: 2000
+  MaxAutoRetriesNextServer: 1
+  MaxAutoRetries: 1
+  OkToRetryOnAllOperations: true #默认为false,则只允许GET请求被重试
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 40000 #缺省为1000
+

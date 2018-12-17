@@ -1,0 +1,26 @@
+server:
+  port: 8763
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+  application:
+    name: neo4j-app
+  data:
+    #Neo4j配置
+    neo4j:
+      username: neo4j
+      password: 123456
+      uri: http://localhost:7474
+
+management:
+#refresh请求的跟路径
+  context-path: /
+  security:
+#  通过refresh post请求时不会报HTTP（401）
+    enabled: false
+logging:
+  path: /log/
+  file: ${spring.application.name}.log

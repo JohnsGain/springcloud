@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <springProperty scope="context" name="springAppName"
+                    source="spring.application.name"/>
+    <springProperty scope="context" name="topic"
+                    source="logging.kafka.topic"/>
+    <springProperty scope="context" name="servers"
+                    source="logging.kafka.servers"/>
+
+    <!-- 文件输出格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+    <!-- Appender to log to console -->
+    <!--   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+           <encoder>
+               <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+               <charset>utf8</charset>
+           </encoder>
+       </appender>
+   -->
+    <!-- Appender to log to file -->
+    <appender name="flatfile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/logs/${springAppName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>/logs/${springAppName}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <maxHistory>90</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="utf-8" class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 开发环境 -->
+    <!--  <springProfile name="dev">
+          <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+              <encoder>
+                  <pattern>${PATTERN}</pattern>
+              </encoder>
+          </appender>
+          <logger name="com.roncoo.education" level="debug"/>
+          <root level="info">
+              <appender-ref ref="CONSOLE"/>
+          </root>
+      </springProfile>
+  -->
+    <!-- Appender to log to file in a JSON format
+    <appender name="logstash"
+        class="com.github.danielwegener.logback.kafka.KafkaAppender">
+        <encoder
+            class="com.github.danielwegener.logback.kafka.encoding.LayoutKafkaMessageEncoder">
+            <layout class="net.logstash.logback.layout.LoggingEventCompositeJsonLayout">
+                <providers>
+                    <timestamp>
+                        <timeZone>UTC</timeZone>
+                    </timestamp>
+                    <pattern>
+                        <pattern>
+                            {
+                            "severity": "%level",
+                            "service": "${springAppName:-}",
+                            "trace": "%X{X-B3-TraceId:-}",
+                            "span": "%X{X-B3-SpanId:-}",
+                            "exportable": "%X{X-Span-Export:-}",
+                            "pid": "${PID:-}",
+                            "thread":
+                            "%thread",
+                            "class": "%logger{40}",
+                            "rest": "%message"
+                            }
+                        </pattern>
+                    </pattern>
+                </providers>
+            </layout>
+        </encoder>
+        <topic>${topic}</topic>
+        <keyingStrategy
+            class="com.github.danielwegener.logback.kafka.keying.RoundRobinKeyingStrategy" />
+        <deliveryStrategy
+            class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy" />
+        <producerConfig>bootstrap.servers=${servers}</producerConfig>
+    </appender>-->
+
+    <appender name="kafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+        <!--<encoder class="net.logstash.logback.encoder.LogstashEncoder">    老版本不支持logstash的encoder实现-->
+        <encoder charset="UTF-8" class="com.github.danielwegener.logback.kafka.encoding.LayoutKafkaMessageEncoder">
+            <layout class="net.logstash.logback.layout.LogstashLayout">
+            <!--<layout class = "ch.qos.logback.classic.PatternLayout">-->
+                <includeContext>true</includeContext>
+                <includeCallerData>true</includeCallerData>
+                <customFields>{"appname":"useradmin"}</customFields>
+                <fieldNames class="net.logstash.logback.fieldnames.ShortenedFieldNames"/>
+                <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                    <maxDepthPerThrowable>30</maxDepthPerThrowable>
+                    <rootCauseFirst>true</rootCauseFirst>
+                </throwableConverter>
+            </layout>
+            <charset>UTF-8</charset>
+        </encoder>
+        <topic>${topic}</topic>
+        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.HostNameKeyingStrategy"/>
+        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
+        <producerConfig>bootstrap.servers=${servers}</producerConfig>
+        <!-- don't wait for a broker to ack the reception of a batch.  -->
+        <producerConfig>acks=0</producerConfig>
+        <!-- wait up to 1000ms and collect log messages before sending them as a batch -->
+        <producerConfig>linger.ms=1000</producerConfig>
+        <!-- even if the producer buffer runs full, do not block the application but start to drop messages -->
+        <producerConfig>max.block.ms=500</producerConfig>
+        <producerConfig>batch.size=102400</producerConfig>
+        <producerConfig>buffer.memory=8388608</producerConfig>
+        <!--<producerConfig>block.on.buffer.full=false</producerConfig>-->
+        <!-- kafka连接失败后，使用下面配置进行日志输出 -->
+        <appender-ref ref="STDOUT"/>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <!-- <appender-ref ref="logstash" /> -->
+        <appender-ref ref="flatfile"/>
+        <appender-ref ref="kafkaAppender"/>
+    </root>
+
+    <jmxConfigurator/>
+</configuration>

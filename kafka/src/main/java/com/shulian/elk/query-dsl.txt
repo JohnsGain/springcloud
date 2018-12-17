@@ -1,0 +1,416 @@
+1.match query
+查询bank索引下属性account_number等于20的文档
+GET/POST bank/_search
+{
+"query":{"match":{"account_number":20}}
+}
+返回属性address包含mill的所有文档
+{
+"query":{"match":{"address":"mill"}}
+}
+返回属性address包含mill或guizhou的所有文档
+{
+"query":{"match":{"address":"mill guizhou"}}
+}
+返回属性address包含 mill guizhou这个短语(意味着这个短语是连在一起的，两个词中间有其他字符的那种不算)的所有文档
+{
+"query":{"match_phrase":{"address":"mill guizhou"}}
+}
+
+2.bool query:可以利用boolean logic把多个小查询语句组合成一个大查询语句
+查看address属性要包含mill和guizhou这两个词的所有文档,bool:{must:{}}从句表示文档对于多个查询条件必须全部为true才算是符合查询结果
+GET/POST bank/_search
+{
+"query":{
+	"bool":{
+		"must":[
+			{"match":{"address":"mill"}},
+			{"match":{"address":"guizhou"}}
+		]
+	}
+}
+}
+查看address属性包含mill或guizhou的所有文档,bool:{should}从句表示查询条件组合中，可以让中任意一个匹配为true，则算符合查询结果
+{
+"query":{
+	"bool":{
+		"should":[
+			{"match":{"address":"mill"}},
+			{"match":{"address":"guizhou"}}
+		]
+	}
+	}
+}
+查询address属性一定不包含mill或guizhou的所有文档,bool:{must_not}从句表示文档必须不匹配查询条件组合中任意一个，才算符合查询结果
+{
+"query":{
+	"bool":{
+		"must_not":[
+			{"match":{"address":"mill}},
+			{"match":{"address":"guizhou"}}
+		]
+	}
+}
+}
+we can compose must,should,must_out clause into one bool query simultaneourly .furthermore,we can compose bool queries inside any
+of these bool clauses to mimic any complex multy-level boolean logic.
+查询age属性一定是40，且state一定不是ID的所有文档
+{
+"query":{
+	"bool":{
+		"must":[
+			{"match":{"age":40}}
+		],
+		"must_not":[
+			{"match":{"state":"ID"}}
+		]
+	}
+}
+}
+
+查询结果中的_score属性，是每个文档对应于查询条件的匹配程度，相关度，the higher the score,the more relevant the document is,the lower the score,
+the less revelant the document is.不是所有的查询都需要score属性，es会自动探测查询条件，只有在用到filter语法的地方，es才会执行socre计算，
+不需要的时候不会做无用的sorce计算。bool query也支持Filter语句：
+3.This example uses a bool query to return all accounts with balances between 20000 and 30000, 
+inclusive. In other words, we want to find accounts with a balance that is greater than or 
+equal to 20000 and less than or equal to 30000.
+1/使用range查询过滤出账户余额在20000到30000之间的文档
+GET/POST bank/_search
+{
+	"query":{
+		"bool":{
+			"must":{"match_all":{}},
+			"filter":{
+				"range":{
+					"balance":{
+						"gte":20000,
+						"lte":30000
+					}
+				}
+			}
+		}
+	}
+}
+In addition to the match_all, match, bool, and range queries, there are a lot of other query types
+ that are available and we won’t go into them here. Since we already have a basic understanding of
+ how they work, it shouldn’t be too difficult to apply this knowledge in learning and experimenting
+ with the other query types.
+ 
+4.aggregation,es可以在同一个请求中执行查询和聚合操作之后再返回，这样更高效，减少请求次数，提高性能，
+ 4.1 To start with, this example groups all the accounts by state, and then returns the top 10 (default) 
+states sorted by count descending (also default):按照每个分组的文档数量降序排序(默认)
+{
+ "size":0,
+ "aggs":{
+	"group_by_state":{
+		"terms":{
+			"field":"state.keyword"
+		}
+	}
+ }
+}
+in 	SQL,the above aggregation is similar in concept to :
+SELECT state, COUNT(*) FROM bank GROUP BY state ORDER BY COUNT(*) DESC LIMIT 10;
+上面查询返回的结果数据如下:
+{
+  "took": 29,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "skipped" : 0,
+    "failed": 0
+  },
+  "hits" : {
+    "total" : 1000,
+    "max_score" : 0.0,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "group_by_state" : {
+      "doc_count_error_upper_bound": 20,
+      "sum_other_doc_count": 770,
+      "buckets" : [ {
+        "key" : "ID",
+        "doc_count" : 27
+      }, {
+        "key" : "TX",
+        "doc_count" : 27
+      }, {
+        "key" : "AL",
+        "doc_count" : 25
+      }, {
+        "key" : "MD",
+        "doc_count" : 25
+      }, {
+        "key" : "TN",
+        "doc_count" : 23
+      }, {
+        "key" : "MA",
+        "doc_count" : 21
+      }, {
+        "key" : "NC",
+        "doc_count" : 21
+      }, {
+        "key" : "ND",
+        "doc_count" : 21
+      }, {
+        "key" : "ME",
+        "doc_count" : 20
+      }, {
+        "key" : "MO",
+        "doc_count" : 20
+      } ]
+    }
+  }
+}
+注：上面把size属性设置为0，是为了不返回hits里面的数据，这里只想展示aggregation里面的结果
+   4.2 同样按state分组，但是在上一个聚合基础上增加计算每个分组的平均账户余额，只展示10个结果,按照每个分组的文档数量降序排序(默认)
+ {
+  "size":0,
+  "aggs":{
+	"group_by_state":{
+		"terms":{"field":"state.keyword"},
+		"aggs":{
+			"average_balance":{
+				"avg":{"field":"balance"}
+			}
+		}
+	}
+  }
+ }
+ 
+  4.3在上一个聚合查询的基础上，更改排序子字段为每个分组的平均账户余额，降序
+ {
+	"size":0,
+	"aggs":{
+		"group_by_state":{
+			"terms":{
+				"field":"state.keyword",
+				"order":{"average_balance":"desc"}
+			},
+			"aggs":{
+				"average_balance":{
+					"avg":{
+						"field":"balance"
+					}
+				}
+			}
+		}
+	}
+ }
+
+ 4.4 按照年龄段分组，再按照性别分组，最后计算每个年龄段中每个性别的平均账户余额
+ This example demonstrates how we can group by age brackets (ages 20-29, 30-39, and 40-49), then by gender,
+ and then finally get the average account balance, per age bracket, per gender:
+{
+"size":0,
+"aggs":{
+    "group_by_age":{
+        "range":{
+            "field":"age",
+            "ranges":[
+                    {"from":20,"to":29},
+                    {"from":30,"to":39},
+                    {"from":40,"to":49}
+                ]
+        },
+        "aggs":{
+            "group_by_gender":{
+                "terms":{
+                    "field":"gender.keyword"
+                }
+            },
+            "aggs":{
+                "average_balance":{
+                    "avg":{
+                        "field":"balance"
+                    }
+                }
+            }
+        }
+    }
+}
+}
+5 ES API Convention API约定的规则
+Most APIs that refer to an index parameter support execution across multiple indices,
+using simple test1,test2,test3 notation (or _all for all indices). It also support wildcards,
+for example: test* or *test or te*t or *test*, and the ability to "exclude" (-), for example: test*,-test3.
+ 5.1支持多索引查询，过滤掉不存在或者关闭的索引，
+ ignore_unavailable
+ Controls whether to ignore if any specified indices are unavailable, this includes indices that don’t exist or closed indices.
+ Either true or false can be specified.
+ 5.2allow_no_indices
+ 控制一个通配符没有匹配到索引是否失败，设置为true or flase
+ 5.3expand_wildcards
+ 设置为open,通配符只匹配打开的索引，设置为close，通配符只匹配关闭的索引，设置为all,匹配所有索引，
+ 设置为none,通配符不可用
+ 以上三个参数的具体配置取决于具体的API
+ 5.4索引中的时间数字支持
+   5.4.1必须用尖括号包住日期数字格式的索引表达式，特殊字符需要使用URI加密
+ 下面是一些例子，假设现在是2014年3月22日中午utc：
+
+ 表达式	解析结果
+ <logstash-{now/d}>	logstash-2024.03.22
+ <logstash-{now/M}>	logstash-2024.03.01
+ <logstash-{now/M{YYYY.MM}}>	logstash-2024.03
+ <logstash-{now/M-1M{YYYY.MM}}>	logstash-2024.02
+ <logstash-{now/d{YYYY.MM.dd丨+12:00}}>	logstash-2024.03.23
+   5.4.2如果想在静态部分使用特殊字符，需要在前面加\\，例如：
+/<logstash-//{ON//}-}{now/d}>/_search  会解析成/logstash-{ON}-2018.10.31/_search
+   5.4.3搜索获取3天的日志，使用默认的日期格式化样式：
+ET /<logstash-{now/d-2d}>,<logstash-{now/d-1d}>,<logstash-{now/d}>/_search
+
+6.1可视化较好的样式，在查询语句末尾加上pretty=true，也可以使用format=yaml，返回更可读简介的yml格式
+  6.2统计返回的结果是一种适合人类阅读的格式（例如："exists_time": "1h" 或者 "size": "1kb"），
+对于计算机是"exists_time_in_millis": 3600000 or "size_in_bytes": 1024。人类可读这个选项可以在查询
+字符串后添加?human=false来关闭，这个适合统计结果被某种监控工具来使用。同时这也是默认选项。
+
+7 响应过滤
+所有的REST API接受一个filter_path参数，它可以用来减少响应的返回字段。参数使用逗号分割并且使用点记法表示：
+GET /_search?q=elasticsearch&filter_path=took,hits.hits._id,hits.hits._score
+响应值：
+
+{
+  "took" : 3,
+  "hits" : {
+    "hits" : [
+      {
+        "_id" : "0",
+        "_score" : 1.6375021
+      }
+    ]
+  }
+}
+它也支持*通配符来匹配任何字段或者字段名字的一部分：
+
+GET /_cluster/state?filter_path=metadata.indices.*.stat*
+响应值：
+
+{
+  "metadata" : {
+    "indices" : {
+      "twitter": {"state": "open"}
+    }
+  }
+}
+
+**通配符可以在不知道准确字段路径的情况下进行匹配：
+
+GET /_cluster/state?filter_path=routing_table.indices.**.state
+响应值：
+
+{
+  "routing_table": {
+    "indices": {
+      "twitter": {
+        "shards": {
+          "0": [{"state": "STARTED"}, {"state": "UNASSIGNED"}],
+          "1": [{"state": "STARTED"}, {"state": "UNASSIGNED"}],
+          "2": [{"state": "STARTED"}, {"state": "UNASSIGNED"}],
+          "3": [{"state": "STARTED"}, {"state": "UNASSIGNED"}],
+          "4": [{"state": "STARTED"}, {"state": "UNASSIGNED"}]
+        }
+      }
+    }
+  }
+}
+
+还可以使用-字符来排除一个或多个字段：
+
+GET /_count?filter_path=-_shards
+响应值：
+
+{
+  "count" : 5
+}
+Flat设置
+
+当flat_settings的值是true时，响应将会以flat格式返回：
+
+GET twitter/_settings?flat_settings=true
+返回值：
+
+{
+  "twitter" : {
+    "settings": {
+      "index.number_of_replicas": "1",
+      "index.number_of_shards": "1",
+      "index.creation_date": "1474389951325",
+      "index.uuid": "n6gzFZTgS664GUfx0Xrpjw",
+      "index.version.created": ...,
+      "index.provided_name" : "twitter"
+    }
+  }
+}
+当flat_settings的值是false时，返回值将会以更适合人类阅读的结构格式化：
+
+GET twitter/_settings?flat_settings=false
+返回值：
+
+{
+  "twitter" : {
+    "settings" : {
+      "index" : {
+        "number_of_replicas": "1",
+        "number_of_shards": "1",
+        "creation_date": "1474389951325",
+        "uuid": "n6gzFZTgS664GUfx0Xrpjw",
+        "version": {
+          "created": ...
+        },
+        "provided_name" : "twitter"
+      }
+    }
+  }
+}
+默认flat_settings的值是false。
+
+对数字化的属性值进行可读性优化，
+1.无论何时，对于时间间隔数字，必须定时间单位，例如对于一个timeout属性，必须指定时间单位，
+2.对于存储字节大小的数字，也必须指定存储单位1kb等于1024b
+3.d对于没有单位的数值，当数值比较大之后，例如10 000000，会展示成10m，7000会展示成7k
+4.表示距离的数值也需要单位，如果没有明确指定，默认是米，也可以指定成其他单位
+Mile     mi or miles
+
+Yard              yd or yards          Feet                   ft or feet
+Inch              in or inch           Kilometer              km or kilometers
+Meter             m or meters          Centimeter             cm or centimeters
+Millimeter        mm or millimeters    Nautical mile          NM, nmi or nauticalmiles
+
+查询可以使用GET/POST,使用请求体包装查询参数，需要指定content-type类型，大多数api通常使用application/json,也可以
+支持其他类型NDJSON,The bulk and multi-search APIs support NDJSON, JSON and SMILE; other types will result in an error response.
+
+启用堆栈跟踪
+
+默认的当一个请求返回一个错误时Elasticsearch不会输出错误的堆栈跟踪信息。你可以通过追加error_trace=true来启用堆栈跟踪。例如：
+
+POST /twitter/_search?size=surprise_me&error_trace=true
+返回结果会像这样：
+
+{
+  "error": {
+    "root_cause": [
+      {
+        "type": "illegal_argument_exception",
+        "reason": "Failed to parse int parameter [size] with value [surprise_me]",
+        "stack_trace": "Failed to parse int parameter [size] with value [surprise_me]]; nested: IllegalArgumentException..."
+      }
+    ],
+    "type": "illegal_argument_exception",
+    "reason": "Failed to parse int parameter [size] with value [surprise_me]",
+    "stack_trace": "java.lang.IllegalArgumentException: Failed to parse int parameter [size] with value [surprise_me]\n    at org.elasticsearch.rest.RestRequest.paramAsInt(RestRequest.java:175)...",
+    "caused_by": {
+      "type": "number_format_exception",
+      "reason": "For input string: \"surprise_me\"",
+      "stack_trace": "java.lang.NumberFormatException: For input string: \"surprise_me\"\n    at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)..."
+    }
+  },
+  "status": 400
+}
+
+为了防止用户重写在URL里指定索引，添加下面的设置到config.yml文件：
+
+rest.action.multi.allow_explicit_index: false
+默认值是true，当设置为false时，Elasticsearch将会拒绝一个在请求体中指定索引的请求。
+、

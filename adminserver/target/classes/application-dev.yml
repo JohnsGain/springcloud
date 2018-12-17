@@ -1,0 +1,27 @@
+server:
+  port: 8773
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+#      从eureka服务器注册表中获取注册信息的时间间隔（s），默认为30秒
+    registry-fetch-interval-seconds: 10
+  instance:
+    prefer-ip-address: true
+spring:
+  application:
+    name: admin-server
+
+management:
+#refresh请求的跟路径
+  context-path: /
+  security:
+#  通过refresh post请求时不会报HTTP（401）
+    enabled: false
+security:
+  basic:
+    enabled: true
+  user:
+    name: john
+    password: 123456
+

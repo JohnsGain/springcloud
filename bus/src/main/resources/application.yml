@@ -1,0 +1,17 @@
+server:
+    port: 8768
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+  application:
+    name: amqp-server
+  rabbitmq:
+    username: guest
+    password: guest
+#    设置为true,才能进行消息的回调
+    publisher-confirms: true
+    virtual-host: /
+    addresses: localhost

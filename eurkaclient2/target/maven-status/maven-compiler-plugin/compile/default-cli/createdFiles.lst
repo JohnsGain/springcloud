@@ -1,0 +1,6 @@
+com\eureka\config\ApplicationContextConfig.class
+com\eureka\config\EnviMyWebAppConfigurer.class
+com\eureka\controller\UserController.class
+com\eureka\entity\User.class
+com\eureka\EurekaClient2Application.class
+com\eureka\service\ISleuthFeign.class

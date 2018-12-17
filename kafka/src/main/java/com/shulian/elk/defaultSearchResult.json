@@ -1,0 +1,81 @@
+{
+  "took": 4,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": 1000,
+    "max_score": null,
+    "hits": [
+      {
+        "_index": "bank",
+        "_type": "_doc",
+        "_id": "0",
+        "_score": null,
+        "_source": {
+          "account_number": 0,
+          "balance": 16623
+        },
+        "sort": [
+          0
+        ]
+      },
+      {
+        "_index": "bank",
+        "_type": "_doc",
+        "_id": "1",
+        "_score": null,
+        "_source": {
+          "account_number": 1,
+          "balance": 39225
+        },
+        "sort": [
+          1
+        ]
+      },
+      {
+        "_index": "bank",
+        "_type": "_doc",
+        "_id": "2",
+        "_score": null,
+        "_source": {
+          "account_number": 2,
+          "balance": 28838
+        },
+        "sort": [
+          2
+        ]
+      },
+      {
+        "_index": "bank",
+        "_type": "_doc",
+        "_id": "3",
+        "_score": null,
+        "_source": {
+          "account_number": 3,
+          "balance": 44947
+        },
+        "sort": [
+          3
+        ]
+      },
+      {
+        "_index": "bank",
+        "_type": "_doc",
+        "_id": "4",
+        "_score": null,
+        "_source": {
+          "account_number": 4,
+          "balance": 27658
+        },
+        "sort": [
+          4
+        ]
+      }
+    ]
+  }
+}

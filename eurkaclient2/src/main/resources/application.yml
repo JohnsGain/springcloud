@@ -1,0 +1,65 @@
+server:
+  port: 8799
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+  application:
+    name: useradmin2
+  zipkin:
+    base-url: http://localhost:8778
+  datasource:
+      url: jdbc:mysql://192.168.1.108:3306/xixiu-work
+      username: root
+      password: root
+      driver-class-name: com.mysql.jdbc.Driver
+      maxactive: 1000
+      maxIdle: 100
+
+  #HikariCP连接池设置，同样的条件下，页面查询响应速度提高20%
+      type: com.zaxxer.hikari.HikariDataSource
+      hikari:
+        data-source-properties:
+          cachePrepStmts: true
+          prepStmtCacheSize: 250
+          prepStmtCacheSqlLimit: 2048
+          useServerPrepStmts: true
+        connection-timeout: 60000
+        maximum-pool-size: 100
+#    feign启用短路起
+feign:
+  hystrix:
+    enabled: true
+
+ribbon:
+  ReadTimeout: 15000
+  ConnectTimeout: 3000
+  MaxAutoRetriesNextServer: 1
+  MaxAutoRetries: 1
+  OkToRetryOnAllOperations: true #默认为false,则只允许GET请求被重试
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+          #缺省为1000
+            timeoutInMilliseconds: 750000
+management:
+  security:
+    enabled: false
+year: 2016
+
+#mybatis配置
+mybatis:
+  configuration:
+    default-fetch-size: 100
+    default-statement-timeout: 60
+#下划线匹配驼峰
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.eureka.entity

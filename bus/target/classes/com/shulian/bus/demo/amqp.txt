@@ -1,0 +1,30 @@
+AMQP: Advanced Message Queuing Protocal高级消息队列协议。
+  是应用层协议的一个开放标准，为面向消息的中间件设计。消息中间件主要用于组件之间的解耦，
+  消息的发送者无需知道消息使用者的存在，反之亦然。AMQP的主要特征是面向消息、队列、路由
+  （包括点对点和发布/订阅）、可靠性、安全。
+
+RabbitMQ：
+    是一个开源的AMQP实现，服务器端用Erlang语言编写，支持多种客户端，如：Python、Ruby、.NET、Java、JMS、C、PHP、
+ActionScript、XMPP、STOMP等，支持AJAX。用于在分布式系统中存储转发消息，在易用性、扩展性、高可用性等方面表现不俗。
+
+springboot中amqp配置
+
+spring.rabbitmq.addresses指定client连接到的server的地址，多个以逗号分隔.
+spring.rabbitmq.dynamic是否创建AmqpAdmin bean. 默认为: true)
+spring.rabbitmq.host指定RabbitMQ host.默认为: localhost)
+spring.rabbitmq.listener.acknowledge-mode指定Acknowledge的模式.
+spring.rabbitmq.listener.auto-startup是否在启动时就启动mq，默认: true)
+spring.rabbitmq.listener.concurrency指定最小的消费者数量.
+spring.rabbitmq.listener.max-concurrency指定最大的消费者数量.
+spring.rabbitmq.listener.prefetch指定一个请求能处理多少个消息，如果有事务的话，必须大于等于transaction数量.
+spring.rabbitmq.listener.transaction-size指定一个事务处理的消息数量，最好是小于等于prefetch的数量.
+spring.rabbitmq.password指定broker的密码.
+spring.rabbitmq.port指定RabbitMQ 的端口，默认: 5672)
+spring.rabbitmq.requested-heartbeat指定心跳超时，0为不指定.
+spring.rabbitmq.ssl.enabled是否开始SSL，默认: false)
+spring.rabbitmq.ssl.key-store指定持有SSL certificate的key store的路径
+spring.rabbitmq.ssl.key-store-password指定访问key store的密码.
+spring.rabbitmq.ssl.trust-store指定持有SSL certificates的Trust store.
+spring.rabbitmq.ssl.trust-store-password指定访问trust store的密码.
+spring.rabbitmq.username指定登陆broker的用户名.
+spring.rabbitmq.virtual-host指定连接到broker的Virtual host.
