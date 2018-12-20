@@ -23,7 +23,7 @@ public class EurekaServerApplication {
 
     @GetMapping("test")
     public String get() {
-        return "hello world22222";
+        return "hello world3333";
     }
 
 }
