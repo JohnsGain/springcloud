@@ -44,7 +44,7 @@ public class ZookeeperTest {
         } else {
             //没有节点,创建 ZooKeeper 节点 (znode ： zoo2, 数据： myData2 ，权限： OPEN_ACL_UNSAFE ，节点类型： Persistent
             String node = test.zooKeeper.create("/zoo2", "myfirstNode".getBytes(Charset.forName("UTF-8")),
-                    ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+                    ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT_SEQUENTIAL);
             LOGGER.info("节点名称 ：" + node);
         }
 
@@ -68,7 +68,7 @@ public class ZookeeperTest {
         //watch参数用于指定是否监听path node的子node的增加和删除事件, 以及path node本身的删除事件.
         List<String> children = test.zooKeeper.getChildren("/", true);
         LOGGER.info("具有子节点个数 ：" + children.size());
-        children.stream().forEach(item -> System.out.print(item + " "));
+        children.forEach(item -> System.out.print(item + " "));
 
         //删除节点， 如果version和真实的版本不同, 删除操作将失败
         test.zooKeeper.delete("/zoo2", -1);
