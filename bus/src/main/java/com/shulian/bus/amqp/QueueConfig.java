@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 队列配置
  * @date 2018/4/23
  * @since jdk1.8

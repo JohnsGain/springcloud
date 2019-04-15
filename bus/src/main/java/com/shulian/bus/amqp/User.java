@@ -3,7 +3,7 @@ package com.shulian.bus.amqp;
 import java.io.Serializable;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description amqp支持对象传输,对象必须实现序列化接口
  * @date 2018/4/24
  * @since jdk1.8

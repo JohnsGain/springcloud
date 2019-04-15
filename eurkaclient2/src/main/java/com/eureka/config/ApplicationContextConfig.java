@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @Description:
  * @date 2018/5/30
  * @since jdk1.8

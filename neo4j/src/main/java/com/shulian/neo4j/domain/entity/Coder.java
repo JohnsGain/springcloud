@@ -9,7 +9,7 @@ import javax.validation.constraints.Min;
 import java.io.Serializable;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 节点实体
  * @date 2018/9/5
  * @since jdk1.8

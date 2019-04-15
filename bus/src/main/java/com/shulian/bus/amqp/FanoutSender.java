@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Fanout 就是我们熟悉的广播模式或者订阅模式，给Fanout转发器发送消息，绑定了这个转发器的所有队列都收到这个消息
- * @author zhangjuwa
+ * @author ""
  * @description 广播模式的交换机
  * @date 2018/4/24
  * @since jdk1.8

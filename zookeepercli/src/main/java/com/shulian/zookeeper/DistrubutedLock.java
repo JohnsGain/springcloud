@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 基于zk的分布式锁实现
  * @date 2018/9/17
  * @since jdk1.8

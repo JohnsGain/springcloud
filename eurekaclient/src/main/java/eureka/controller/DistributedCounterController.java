@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *  * @see {http://blog.51cto.com/fanfusuzi/1936684}
- * @author zhangjuwa
+ * @author ""
  * @description curator分布式计数器
  * @date 2018/9/18
  * @since jdk1.8

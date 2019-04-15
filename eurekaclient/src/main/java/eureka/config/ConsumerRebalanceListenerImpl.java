@@ -16,7 +16,7 @@ import java.util.Collection;
  * 当同一主题下有新的消费者上线，kafka服务收到上线信息后会对改主题下各个消费者进行重新分区分配
  *  这个时候这个监听就会启动
  * @see {官网关于该监听器的使用案例 http://kafka.apache.org/0100/javadoc/org/apache/kafka/clients/consumer/ConsumerRebalanceListener.html}
- * @author zhangjuwa
+ * @author ""
  * @description
  * @date 2018/9/28
  * @since jdk1.8

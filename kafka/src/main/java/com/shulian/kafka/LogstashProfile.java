@@ -1,7 +1,7 @@
 package com.shulian.kafka;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description logstash概念介绍
  * logstash 是一款开源的数据传输工具，具备实时数据传输能力。他可以把数据结构，大小，来源不一的数据进行收集，进行过滤，
  * 转化(比如把数据进行标准化处理)，

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 实现neo4j事件监听逻辑
  * @date 2018/9/5
  * @since jdk1.8

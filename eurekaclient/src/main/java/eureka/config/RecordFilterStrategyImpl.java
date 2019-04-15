@@ -4,7 +4,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.listener.adapter.RecordFilterStrategy;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 确认一条消息是否应该被废弃，在发生分区重分配的时候，可能会发生消息重复消费问题，
  * In certain scenarios, such as rebalancing, a message may be redelivered that has already been
  * processed. The framework cannot know whether such a message has been processed or not, that is

@@ -1,7 +1,7 @@
 package com.eureka.entity;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @date 2018/4/17
  * @description 用户
  * @since jdk1.8

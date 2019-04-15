@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * 模拟多生产者多消费者
- * @author zhangjuwa
+ * @author ""
  * @description 生产者2
  * @date 2018/4/23
  * @since jdk1.8

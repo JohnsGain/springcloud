@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 消费者2
  * @date 2018/4/23
  * @since jdk1.8

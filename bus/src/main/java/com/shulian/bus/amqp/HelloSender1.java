@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * 最简单的hello生产和消费实现（单生产者和单消费者）
- * @author zhangjuwa
+ * @author ""
  * @description 消息生产者
  * @date 2018/4/23
  * @since jdk1.8

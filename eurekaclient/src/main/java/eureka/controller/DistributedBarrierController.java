@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description curator分布式同步器
+ * @date 2018/9/18
  * @see {http://blog.51cto.com/fanfusuzi/1936684}
  * 分布式Barrier 类{@link DistributedDoubleBarrier}：
- * @date 2018/9/18
  * @since jdk1.8
  */
 @RestController
@@ -27,7 +27,8 @@ public class DistributedBarrierController {
 
     /**
      * 它会阻塞所有节点上的等待进程，直到某一个被满足，
-     *  * 然后所有的节点同时开始，中间谁先运行完毕，谁后运行完毕不关心，但是最终一定是一块退出运行的
+     * * 然后所有的节点同时开始，中间谁先运行完毕，谁后运行完毕不关心，但是最终一定是一块退出运行的
+     *
      * @return
      * @throws Exception
      */
@@ -47,6 +48,7 @@ public class DistributedBarrierController {
 
     /**
      * 它会阻塞所有节点上的等待进程（所有节点进入待执行状态），直到“阻塞的这个节点被删除(改节点更新也不行)， 然后所有的节点同时开始
+     *
      * @return
      */
     @GetMapping("barrier2")

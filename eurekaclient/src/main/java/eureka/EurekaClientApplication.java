@@ -8,7 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @date 2018/4/17
  * @description eureka服务
  * @since jdk1.8

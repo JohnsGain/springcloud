@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 设置提交偏移量回调，在提交成功或者失败都会收到通知
  * @date 2018/9/28
  * @since jdk1.8

@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 自动对象映射工具，通常用于实体和DTO参数转换，避免暴露隐秘数据
  * @date 2018/4/28
  * @since jdk1.8

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 制作一个kafka生产者消费者客户端，部署在同一个服务器上
  * @date 2018/9/25
  * @since jdk1.8

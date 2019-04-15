@@ -4,7 +4,7 @@ import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 类级别的消息监听
  * @date 2018/9/29
  * @since jdk1.8

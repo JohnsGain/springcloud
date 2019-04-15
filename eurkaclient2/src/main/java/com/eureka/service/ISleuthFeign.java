@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * 用于测试sleuth
- * @author zhangjuwa
+ * @author ""
  * @Description:
  * @date 2018/5/20
  * @since jdk1.8

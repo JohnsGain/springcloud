@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @date 2018/4/17
  * @description 使用Ribbon来调用服务，并实现客户端的均衡负载的消费者
  * Ribbon可以在通过客户端中配置的ribbonServerList服务端列表去轮询访问以达到均衡负载的作用。

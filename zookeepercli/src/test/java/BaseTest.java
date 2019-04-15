@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 测试基类
  * @date 2018/9/19
  * @since jdk1.8

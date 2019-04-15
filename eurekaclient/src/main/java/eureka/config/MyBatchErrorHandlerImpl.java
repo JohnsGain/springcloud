@@ -4,7 +4,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.springframework.kafka.listener.BatchErrorHandler;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 批量监听时候配置的批量异常处理器
  * @date 2018/9/30
  * @since jdk1.8

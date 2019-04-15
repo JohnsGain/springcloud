@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.util.*;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description kafka消费者端测试
  * @date 2018/9/20
  * @see {官方文档 https://kafka.apache.org/0102/javadoc/org/apache/kafka/clients/consumer/KafkaConsumer.html}

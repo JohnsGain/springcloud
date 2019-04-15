@@ -18,7 +18,7 @@ import java.util.concurrent.TimeoutException;
  *      (4)：将queue和Channel进行绑定，注意这里的queue名字要和前面producer创建的queue一致
  *
  *      (5)：创建消费者Consumer来接收消息，同时将消费者和queue进行绑定
- * @author zhangjuwa
+ * @author ""
  * @description 创建RabbitMq消费者
  * @date 2018/4/20
  * @since jdk1.8

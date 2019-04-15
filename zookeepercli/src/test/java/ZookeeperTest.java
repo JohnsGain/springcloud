@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 使用原生zookeeper客户端访问zookeepr服务
  * @date 2018/9/14
  * @since jdk1.8

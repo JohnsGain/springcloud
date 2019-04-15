@@ -3,12 +3,15 @@ package com.shulian.kafka;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 生产者客户端
  * 生产者包括一个缓冲区池，它保存尚未发送到服务器的记录，以及一个后台I/O线程，
  * 负责将这些记录转换为请求并将其传输到集群。使用后未能关闭生产者将泄漏这些资源。
@@ -19,12 +22,12 @@ import java.util.Random;
  * @date 2018/9/20
  * @since jdk1.8
  */
-public class ProducerTest extends BaseTest{
+public class ProducerTest extends BaseTest {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
         Properties props = new Properties();
-        props.put("bootstrap.servers", "192.168.2.111:9092");
-        props.put("acks", "all");
+        props.put("bootstrap.servers", "211.159.185.172:9092");
+//        props.put("acks", "all");
         //如果请求失败，生产者可以自动重试,重试次数为0就不会重试，重试可能产生重复
         props.put("retries", 0);
         //生产者维护的每次发送消息的缓冲区
@@ -44,14 +47,24 @@ public class ProducerTest extends BaseTest{
 
         Producer<String, String> producer = new KafkaProducer<String, String>(props);
         Random random = new Random();
-        for (int i = 0; i < 10; i++) {
-            Thread.sleep(300);
+        for (int i = 0; i < 1000; i++) {
+//            Thread.sleep(300);
             String key = "key" + i;
-            String value = String.valueOf(random.nextInt(1000));
-            producer.send(new ProducerRecord<>("test", key, value));
+//            String value = String.valueOf(random.nextInt(1000));
+            String value = key;
+            Future<RecordMetadata> test = producer.send(new ProducerRecord<>("efance_response_2", key, value));
+            System.out.println(test.get().toString());
             //用于演示KStream的flatMap()
             //producer.send(new ProducerRecord<>("test", "key" + i, "Note that the console consumer currently enables offset"));
         }
+        new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                producer.send(new ProducerRecord<>("efance_response_2",
+                        String.valueOf(new Random().nextInt()), String.valueOf(System.nanoTime())));
+            }
+        }
+        )
+                .start();
         producer.close();
     }
 

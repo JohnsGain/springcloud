@@ -1,7 +1,7 @@
 package com.shulian.zuul.config;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @since jdk1.8
  */
 public enum ZuulFilterTypeEnum {

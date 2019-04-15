@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description curator分布式同步器
  * @see {http://blog.51cto.com/fanfusuzi/1936684}
  * 分布式Barrier 类{@link DistributedDoubleBarrier}：

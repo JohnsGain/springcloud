@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.management.remote.JMXPrincipal;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 通过feign整合的负载均衡调用服务
  * @date 2018/4/17
  * @since jdk1.8

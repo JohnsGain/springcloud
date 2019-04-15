@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 启动
  * @date 2018/9/5
  * @since jdk1.8

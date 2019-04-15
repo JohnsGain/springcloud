@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.concurrent.ListenableFuture;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 生产者
  * @date 2018/9/26
  * @since jdk1.8

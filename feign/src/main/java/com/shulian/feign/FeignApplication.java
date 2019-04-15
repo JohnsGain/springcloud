@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 /**
  * Spring Cloud为Feign增加了对Spring MVC注解的支持，还整合了Ribbon和Eureka来提供均衡负载的HTTP客户端实现。
  * Feign自帶了斷路器功能，默認是禁用的
- * @author zhangjuwa
+ * @author ""
  * @description feign负载均衡器
  * @date 2018/4/17
  * @since jdk1.8

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description
  * @date 2018/9/17
  * @since jdk1.8

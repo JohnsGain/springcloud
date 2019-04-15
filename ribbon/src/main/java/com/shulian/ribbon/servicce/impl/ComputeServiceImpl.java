@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 消费服务是吸纳
  * @date 2018/4/18
  * @since jdk1.8

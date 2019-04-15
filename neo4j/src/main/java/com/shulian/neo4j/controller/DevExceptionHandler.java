@@ -55,7 +55,7 @@ public class DevExceptionHandler {
 
     /**
      * 趋势研究-获取参数验证返回的错误信息
-     * @auther zhangjuwa
+     * @auther ""
      * @date 2018-09-05
      * @param e
      * @return 返回参数验证产生的错误信息

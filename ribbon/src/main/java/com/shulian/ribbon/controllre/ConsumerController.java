@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 服務消費者控制器
  * @date 2018/4/17
  * @since jdk1.8

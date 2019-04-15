@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @date 2018/4/17
  * @description eureka服务
  * @since jdk1.8

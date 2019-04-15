@@ -8,7 +8,7 @@ package com.shulian.elk;
  *
  * ETL: Extract:数据抽取，Transform:转换，Load:加载
  * @see {关于ETL https://www.2cto.com/net/201805/742728.html}
- * @author zhangjuwa
+ * @author ""
  * @description logstash 概念
  * @date 2018/10/9
  * @since jdk1.8

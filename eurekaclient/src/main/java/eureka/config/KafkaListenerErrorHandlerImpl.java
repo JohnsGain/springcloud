@@ -8,7 +8,7 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 监听异常处理配置
  * @date 2018/9/27
  * @since jdk1.8

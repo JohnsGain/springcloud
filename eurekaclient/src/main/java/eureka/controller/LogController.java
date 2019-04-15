@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 测试logback配置
  * @date 2018/9/30
  * @since jdk1.8

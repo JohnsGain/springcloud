@@ -1,7 +1,7 @@
 package com.shulian.kafka;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description kafka简介
  * @see {机制和应用场景好文: https://blog.csdn.net/code52/article/details/50475511}
  * @see {大神制作 https://blog.csdn.net/isea533/article/details/73720066}

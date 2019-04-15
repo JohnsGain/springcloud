@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description curator实现事件监听
  * @date 2018/9/19
  * @see {https://blog.csdn.net/en_joker/article/details/78788059}

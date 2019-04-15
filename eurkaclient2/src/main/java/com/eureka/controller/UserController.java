@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @date 2018/4/17
  * @description 用户控制器
  * @since jdk1.8

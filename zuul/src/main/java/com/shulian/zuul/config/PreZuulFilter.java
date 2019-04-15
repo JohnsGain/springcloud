@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.function.Supplier;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 测试Zuul服务安全过滤
  * @date 2018/4/20
  * @since jdk1.8

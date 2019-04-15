@@ -18,7 +18,7 @@ import java.util.Properties;
 /**
  * 流API允许对来自一个或多个主题的消息进行连续计算，并将结果发送到零个，一个或多个主题中。
  *
- * @author zhangjuwa
+ * @author ""
  * @description kafka数据流处理
  * @date 2018/9/21
  * @see {官方文档 https://kafka.apache.org/0102/javadoc/org/apache/kafka/streams/KafkaStreams.html}

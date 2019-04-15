@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 获取当前应用环境
  * @date 2018/4/20
  * @since jdk1.8

@@ -1,7 +1,7 @@
 package eureka.config;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 消息接口
  * @date 2018/9/26
  * @since jdk1.8

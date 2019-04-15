@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * 用于测试sleuth追踪
- * @author zhangjuwa
+ * @author ""
  * @Description:
  * @date 2018/5/20
  * @since jdk1.8

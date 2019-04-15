@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 模拟RabbitMQ生产者  producer,consumer,virtual host,broker,exchange,queue
  * exchange种类：
  * 1.direct exchange :直接匹配，通过交换机名称和Routing Key来接收和发送消息

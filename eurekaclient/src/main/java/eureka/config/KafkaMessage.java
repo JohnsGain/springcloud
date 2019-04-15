@@ -3,7 +3,7 @@ package eureka.config;
 import java.io.Serializable;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description kafka消息实体
  * @date 2018/9/26
  * @since jdk1.8

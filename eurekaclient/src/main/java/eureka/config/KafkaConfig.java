@@ -44,7 +44,7 @@ import java.util.Map;
  * 启用注解{@link EnableKafka}，再加上配置一个kafkaListenerContainerFactory，
  * 就可以支持在处理消息的方法上直接获取POJO对象来消费，不用{@link org.apache.kafka.clients.consumer.ConsumerRecord}
  *
- * @author zhangjuwa
+ * @author ""
  * @description kafka配置
  * @date 2018/9/28
  * @see {@link org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration}

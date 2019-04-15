@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @Description:
  * @date 2018/6/20
  * @since jdk1.8

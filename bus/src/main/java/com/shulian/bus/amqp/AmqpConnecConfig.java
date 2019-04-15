@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Scope;
 
 /**
  * 使用发送成功回调处理，需要重新注入RabbitTemplate,注入prototype类型的bean
- * @author zhangjuwa
+ * @author ""
  * @description
  * @date 2018/4/24
  * @since jdk1.8

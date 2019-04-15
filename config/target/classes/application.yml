@@ -13,10 +13,10 @@ spring:
       server:
         git:
 #        \配置git仓库位置
-          uri: https://gitee.com/zhangjuwa/basicJava/
+          uri: https://gitee.com/""/basicJava/
 #配置仓库路径下的相对搜索位置，可以配置多个
           search-paths: config-repo
-          username: zhangjuwa
+          username: ""
           password: yu718580
 security:
   user:

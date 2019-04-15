@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * Recipes 模块主要有 Elections(选举)，Locks(锁)，Barriers(关卡)，Atomic(原子量)，Caches，Queues 等。
  * 选举主要依赖于 LeaderSelector 和 LeaderLatch 两个类。前者是所有存活的客户端不间断的轮流做 Leader。后者是一旦选举出 Leader，
  * 除非有客户端挂掉重新触发选举，否则不会交出领导权。这两者在实现上是可以切换的。
- * @author zhangjuwa
+ * @author ""
  * @description
  * @date 2018/9/18
  * @since jdk1.8

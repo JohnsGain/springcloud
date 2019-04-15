@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /** 服務短路之後,執行的回調方法。通过@FeigenClient(fallback = UserClientFeignHystrixImpl.class)制定,和调用的接口实现同一个接口
- * @author zhangjuwa
+ * @author ""
  * @description
  * @date 2018/4/18
  * @since jdk1.8

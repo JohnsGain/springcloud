@@ -1,7 +1,7 @@
 #基础镜像：仓库是java，标签用8u66-jdk
 FROM java:8u66-jdk
 #当前镜像的维护者和联系方式
-MAINTAINER zhangjuwa 1047994907@qq.com
+MAINTAINER "" 1047994907@qq.com
 #由于 Spring Boot 使用内置的Tomcat容器，Tomcat 默认使用/tmp作为工作目录，
 #这个命令的效果是：在宿主机的/var/lib/docker目录下创建一个临时文件并把它链接到容器中的/tmp目录。
 VOLUME /tmp

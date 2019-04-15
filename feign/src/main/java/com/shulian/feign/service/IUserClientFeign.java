@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 /**
  *  使用@FeignClient("useradmin")注解来绑定该接口对应useradmin服务，useradmin代表在eureka注册的服务名
  *  通过fallback指定服务短路之后的回调实现类
- * @author zhangjuwa
+ * @author ""
  * @since jdk1.8
  */
 //@FeignClient(value = "useradmin", fallback = UserClientFeignHystrixImpl.class)//使用fallback的回退方式不能获取错误信息

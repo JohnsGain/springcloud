@@ -7,7 +7,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 接受用户消息的消费者
  * @date 2018/4/24
  * @since jdk1.8

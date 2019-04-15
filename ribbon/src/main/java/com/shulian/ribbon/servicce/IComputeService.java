@@ -3,7 +3,7 @@ package com.shulian.ribbon.servicce;
 import com.shulian.ribbon.entity.User;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @since jdk1.8
  */
 public interface IComputeService {

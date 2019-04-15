@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 使用封装zookeeper的Curator组件之Framework访问zookeeper服务
  * @date 2018/9/18
  * @since jdk1.8

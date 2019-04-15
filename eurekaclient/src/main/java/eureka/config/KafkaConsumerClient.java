@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @Author zhangjuwa
+ * @Author ""
  * @Description kafka消费配置
  * 0.11.0.0版本新功能
  * 0.支持事务{@link KafkaTransactionManager}

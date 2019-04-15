@@ -10,7 +10,7 @@ import org.springframework.cloud.sleuth.sampler.AlwaysSampler;
 import org.springframework.context.annotation.Bean;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @Description:
  * @date 2018/5/20
  * @since jdk1.8

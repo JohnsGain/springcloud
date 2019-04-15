@@ -3,7 +3,7 @@ package com.shulian.bus.service;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 队列服务
  * @date 2018/4/23
  * @since jdk1.8

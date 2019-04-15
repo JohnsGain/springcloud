@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * 和topic.messages两个队列），其中topic.message的bindting_key为
  *
  * “topic.message”，topic.messages的binding_key为“topic.#”；
- * @author zhangjuwa
+ * @author ""
  * @description 主题交换机绑定策略
  * @date 2018/4/24
  * @since jdk1.8

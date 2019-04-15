@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
 /**
- * @author zhangjuwa
+ * @author ""
  * @description 測試rabbit生產消費
  * @date 2018/4/23
  * @since jdk1.8
