@@ -1,6 +1,9 @@
 package com.demo.controller;
 
+import com.demo.Result;
+import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +23,22 @@ public class TestController {
     @Autowired
     private RuntimeService runtimeService;
 
+    @Autowired
+    private RepositoryService repositoryService;
+
     @GetMapping("get")
     public String get() {
+
+
         ProcessInstanceQuery processInstanceQuery = runtimeService.createProcessInstanceQuery();
         List<ProcessInstance> list = processInstanceQuery.list();
         return "helloworld" + list.size();
+    }
+
+    @GetMapping("deploy")
+    public Result<List<Deployment>> list() {
+        List<Deployment> list1 = repositoryService.createDeploymentQuery()
+                .list();
+        return new Result<>(list1);
     }
 }

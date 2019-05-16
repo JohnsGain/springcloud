@@ -40,6 +40,10 @@ imooc:
   security:
     browser:
       loginPage: /security/needlogin
+
 name: bbb
 auth:
-  permits: /hello,/auth/needlogin,/auth/piccaptcha,/auth/token,/favicon.ico
+  permits: /hello,/auth/needlogin,/auth/piccaptcha,/auth/token,/favicon.ico,/**
+security:
+  basic:
+    enabled: false
