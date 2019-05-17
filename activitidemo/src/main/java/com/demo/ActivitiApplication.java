@@ -27,8 +27,8 @@ public class ActivitiApplication implements ApplicationListener<ApplicationReady
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-        //Deployment deploy = repositoryService.createDeployment()
-        //        .addClasspathResource("processes/test.task_bpmn20.xml")
-        //        .deploy();
+        Deployment deploy = repositoryService.createDeployment()
+                .addClasspathResource("processes/test.task_bpmn20.xml")
+                .deploy();
     }
 }
