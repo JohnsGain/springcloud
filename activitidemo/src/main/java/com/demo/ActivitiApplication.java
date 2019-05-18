@@ -19,6 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class ActivitiApplication implements ApplicationListener<ApplicationReadyEvent> {
 
     public static void main(String[] args) {
+
         SpringApplication.run(ActivitiApplication.class, args);
     }
 
