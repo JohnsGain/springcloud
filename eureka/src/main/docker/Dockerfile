@@ -1,5 +1,5 @@
-#基础镜像：仓库是java，标签用8u66-jdk
-FROM java:8u66-jdk
+#基础镜像：仓库是java，标签用8u201-jdk
+FROM java:8u201-jdk
 #当前镜像的维护者和联系方式
 MAINTAINER "" 1047994907@qq.com
 #由于 Spring Boot 使用内置的Tomcat容器，Tomcat 默认使用/tmp作为工作目录，
