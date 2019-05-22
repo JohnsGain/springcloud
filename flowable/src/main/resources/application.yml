@@ -1,0 +1,4 @@
+spring:
+  profiles:
+#    家用配置
+    active: dev
