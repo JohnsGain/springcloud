@@ -2,17 +2,18 @@ package com.demo.flowable.controller;
 
 import com.demo.flowable.dto.ProcessDefinitionOutput;
 import com.demo.flowable.param.Result;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedList;
@@ -35,8 +36,9 @@ public class RepositoryController {
         this.repositoryService = repositoryService;
     }
 
+    @ApiOperation("获取流程定义实例")
     @GetMapping("processDefinitions")
-    public Result<Page<ProcessDefinitionOutput>> page(@PageableDefault Pageable pageable) {
+    public Result<PageInfo<ProcessDefinitionOutput>> page(@PageableDefault Pageable pageable) {
         ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery();
         long count = processDefinitionQuery.active().count();
         List<ProcessDefinition> processDefinitions = processDefinitionQuery.active()
@@ -56,8 +58,11 @@ public class RepositoryController {
             output.setDiagramResourceName(item.getDiagramResourceName());
             list.add(output);
         }
-        Page<ProcessDefinitionOutput> out = new PageImpl<>(list, pageable, count);
-//        out.
-        return new Result<>(out);
+        PageInfo<ProcessDefinitionOutput> of = PageInfo.of(list);
+        of.setPageNum(pageable.getPageNumber());
+        of.setPageSize(pageable.getPageSize());
+        return new Result<>(of);
     }
+
+
 }

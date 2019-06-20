@@ -26,6 +26,9 @@
                     <activiti:value id="false" name="Reject" />
                 </activiti:formProperty>
                 <activiti:formProperty id="managerMotivation" name="Motivation" type="string" />
+                <!--创建任务的时候，下面监听器被触发，-->
+                <activiti:taskListener event="create" delegateExpression="${countersignTaskListener}"/>
+                <activiti:taskListener event="assignment" delegateExpression="${assignmentTaskListener}"/>
             </extensionElements>
             <potentialOwner>
                 <resourceAssignmentExpression>
@@ -37,7 +40,15 @@
 
         <exclusiveGateway id="requestApprovedDecision" name="Request approved?" />
         <sequenceFlow id="flow3" sourceRef="requestApprovedDecision" targetRef="sendApprovalMail">
+            <extensionElements>
+                <activiti:executionListener event="take" delegateExpression="${sequenceFlowListener}"/>
+            </extensionElements>
             <conditionExpression xsi:type="tFormalExpression">${vacationApproved == 'true'}</conditionExpression>
+          <!--  Allows to specify an expression on a service task, taskListener or executionListener
+            that at runtime must resolve to an object that implements the corresponsing
+            interface (JavaDelegate, ActivityBehavior, TaskListener, ExecutionListener, etc.)-->
+            <!--<conditionExpression activiti:delegateExpression="${countersignTaskListener}"/>-->
+
         </sequenceFlow>
 
         <task id="sendApprovalMail" name="Send confirmation e-mail" />

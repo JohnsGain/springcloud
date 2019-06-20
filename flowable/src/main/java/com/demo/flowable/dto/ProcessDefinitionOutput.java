@@ -14,7 +14,7 @@ public class ProcessDefinitionOutput implements ProcessDefinition {
     private String name;
     private String key;
     private String description;
-    private Integer version;
+    private int version;
     private String resourceName;
     private String deploymentId;
     private String diagramResourceName;
