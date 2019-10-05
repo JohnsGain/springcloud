@@ -115,7 +115,6 @@
         <module>adminserver</module>
         <module>kafka</module>
         <module>zookeepercli</module>
-        <module>activitidemo</module>
         <module>flowable</module>
     </modules>
 
