@@ -1,4 +1,4 @@
-package com.shulian.netty;
+package com.shulian.netty.test;
 
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.epoll.EpollDatagramChannel;

@@ -1,4 +1,4 @@
-package com.shulian.netty;
+package com.shulian.netty.test;
 
 import lombok.Data;
 

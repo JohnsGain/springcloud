@@ -1,4 +1,4 @@
-package com.shulian.netty;
+package com.shulian.netty.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.channel.ChannelInitializer;
