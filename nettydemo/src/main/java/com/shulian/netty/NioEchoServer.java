@@ -16,18 +16,18 @@ import java.net.InetSocketAddress;
  * @date 2020-03-24 15:59
  * @since jdk1.8
  */
-public class EchoServer {
+public class NioEchoServer {
 
     private final int port;
 
-    public EchoServer(int port) {
+    public NioEchoServer(int port) {
         this.port = port;
     }
 
     public static void main(String[] args) throws InterruptedException {
 
         int port = 8777; //1
-        new EchoServer(port).start();
+        new NioEchoServer(port).start();
     }
 
     private void start() throws InterruptedException {

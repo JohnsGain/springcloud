@@ -47,7 +47,7 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
         log.info("连接成功!!!!");
         ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!!!!!!", CharsetUtil.UTF_8));
 
-        //从当前handler节点开始传递消息，找到具体的处理器来处理消息，如果一直没有，就会传到TailHandler，说明没有
+        //从当前上下文的下一个handler节点开始传递消息，找到具体的处理器来处理消息，如果一直没有，就会传到TailHandler，说明没有
         //处理器处理消息，随着处理器链传递的消息占用内存也一直没释放，所以在TailHandler就会打印日志，然后释放消息
 //        ctx.fireChannelRead()
 

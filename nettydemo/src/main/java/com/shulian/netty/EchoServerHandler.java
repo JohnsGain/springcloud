@@ -33,8 +33,11 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        log.info("xxx");
         ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
+                //在写操作完成之后执行关闭channel
                 .addListener(ChannelFutureListener.CLOSE);
+        log.info("度完成");
     }
 
     @Override
