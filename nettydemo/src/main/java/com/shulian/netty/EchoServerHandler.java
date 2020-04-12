@@ -29,6 +29,8 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
         ByteBuf byteBuf = (ByteBuf) msg;
         log.info("server received {}", byteBuf.toString(CharsetUtil.UTF_8));
         ctx.write(byteBuf);
+//        ctx.pipeline().fireChannelActive()
+//        ctx.fireChannelActive()
     }
 
     @Override

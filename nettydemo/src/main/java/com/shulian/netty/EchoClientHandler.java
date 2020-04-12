@@ -66,4 +66,5 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
         cause.printStackTrace();
         ctx.close();
     }
+
 }

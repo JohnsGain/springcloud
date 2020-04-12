@@ -26,7 +26,7 @@ public class ProducerTest extends BaseTest {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         Properties props = new Properties();
-        props.put("bootstrap.servers", "211.159.185.172:9092");
+        props.put("bootstrap.servers", "192.168.124.5:9092");
 //        props.put("acks", "all");
         //如果请求失败，生产者可以自动重试,重试次数为0就不会重试，重试可能产生重复
         props.put("retries", 0);
@@ -52,20 +52,20 @@ public class ProducerTest extends BaseTest {
             String key = "key" + i;
 //            String value = String.valueOf(random.nextInt(1000));
             String value = key;
-            Future<RecordMetadata> test = producer.send(new ProducerRecord<>("efance_response_2", key, value));
+            Future<RecordMetadata> test = producer.send(new ProducerRecord<>("test1", key, value));
             System.out.println(test.get().toString());
             //用于演示KStream的flatMap()
             //producer.send(new ProducerRecord<>("test", "key" + i, "Note that the console consumer currently enables offset"));
         }
-        new Thread(() -> {
-            for (int i = 0; i < 1000; i++) {
-                producer.send(new ProducerRecord<>("efance_response_2",
-                        String.valueOf(new Random().nextInt()), String.valueOf(System.nanoTime())));
-            }
-        }
-        )
-                .start();
-        producer.close();
+//        new Thread(() -> {
+//            for (int i = 0; i < 1000; i++) {
+//                producer.send(new ProducerRecord<>("test7",
+//                        String.valueOf(new Random().nextInt()), String.valueOf(System.nanoTime())));
+//            }
+//        }
+//        )
+//                .start();
+//        producer.close();
     }
 
 }

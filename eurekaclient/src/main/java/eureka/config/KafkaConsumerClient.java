@@ -91,7 +91,7 @@ public class KafkaConsumerClient {
      * @see {@link KafkaListenerAnnotationBeanPostProcessor}在这个类里面，过滤出所有带有Kafkalistener注解的类或者方法
      */
     //@KafkaListeners(value = {@KafkaListener(id = "test", topics = {"test"}, errorHandler = "kafkaListenerErrorHandlerImpl")})
-    @KafkaListeners(value = {@KafkaListener(group = "test", id = "test", topics = {"test"}, containerFactory = "kafkaListenerContainerFactory")})
+    @KafkaListeners(value = {@KafkaListener(group = "test", id = "test", topics = {"test7"}, containerFactory = "kafkaListenerContainerFactory")})
     public void consume(ConsumerRecord<String, String> consumerRecord) {
         //KafkaListenerEndpoint endpoint = new MultiMethodKafkaListenerEndpoint<>()
         //kafkaListenerEndpointRegistry.
