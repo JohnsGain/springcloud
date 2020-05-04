@@ -6,6 +6,9 @@ import io.netty.util.internal.PlatformDependent;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLEngine;
+
 /**
  * 一些有用的工具，如ByteBufAllocator,ByteBufUtil,Unpooled
  * <p>

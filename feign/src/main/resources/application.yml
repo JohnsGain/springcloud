@@ -55,3 +55,4 @@ hystrix:
           thread:
             timeoutInMilliseconds: 40000 #缺省为1000
 
+

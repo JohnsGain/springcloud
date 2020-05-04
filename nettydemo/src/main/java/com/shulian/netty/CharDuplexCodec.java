@@ -23,4 +23,6 @@ public class CharDuplexCodec extends CombinedChannelDuplexHandler<ByteToCharDeco
     public CharDuplexCodec() {
         super(new ByteToCharDecoder(), new CharToByteEncoder());
     }
+
+
 }
