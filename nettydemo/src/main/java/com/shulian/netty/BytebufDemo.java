@@ -1,8 +1,10 @@
 package com.shulian.netty;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufProcessor;
 import io.netty.buffer.CompositeByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.util.ByteProcessor;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -167,13 +169,24 @@ public class BytebufDemo {
      */
     @Test
     public void indexOf() {
-        ByteBuf byteBuf = Unpooled.wrappedBuffer(new byte[]{12, 34, 45, 66, 23, 12, 123});
+        ByteBuf byteBuf = Unpooled.wrappedBuffer(new byte[]{12, 23,34, 0,13,32, 66, 23, 12, 123});
         int index = byteBuf.indexOf(0, byteBuf.capacity(), (byte) 66);
         System.out.println(index);
         //返回23的下标，从当前readIndex开始查找
+        byteBuf.readBytes(2);
+        log.info("readInex={},wirteInde={},capa={}", byteBuf.readerIndex(), byteBuf.writerIndex(), byteBuf.capacity());
         int before = byteBuf.bytesBefore((byte) 23);
         System.out.println(before);
 
+        // null-terminated string 就是以指以'\0'结尾的字符串，相对于Char类型来说的
+        System.out.println((int)'\0');
+        int nul = byteBuf.forEachByte(ByteProcessor.FIND_NUL);
+        System.out.println("nul=="+nul);
+
+        // \r 换行符的asc码是13
+        System.out.println((int)'\r');
+        // 从当前readIndex开始查找，找出第一个 换行符 下标
+        System.out.println(byteBuf.forEachByte(ByteProcessor.FIND_CR));
 
     }
 
