@@ -46,6 +46,7 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         System.out.println("xxxxx");
         log.warn("异常", cause);
+        //关闭当前通道
         ctx.close();
     }
 
