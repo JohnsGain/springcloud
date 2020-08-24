@@ -57,6 +57,7 @@ public class ProducerTest extends BaseTest {
             //用于演示KStream的flatMap()
             //producer.send(new ProducerRecord<>("test", "key" + i, "Note that the console consumer currently enables offset"));
         }
+
 //        new Thread(() -> {
 //            for (int i = 0; i < 1000; i++) {
 //                producer.send(new ProducerRecord<>("test7",

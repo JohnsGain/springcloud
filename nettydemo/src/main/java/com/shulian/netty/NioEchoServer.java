@@ -4,6 +4,8 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.epoll.EpollEventLoopGroup;
+import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -32,8 +34,10 @@ public class NioEchoServer {
 
     private void start() throws InterruptedException {
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
+//        EpollEventLoopGroup
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
+//            EpollServerSocketChannel
             serverBootstrap.group(eventLoopGroup)
                     .channel(NioServerSocketChannel.class)
                     .localAddress(new InetSocketAddress(port))
