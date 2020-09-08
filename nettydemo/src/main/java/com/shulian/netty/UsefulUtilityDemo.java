@@ -2,6 +2,7 @@ package com.shulian.netty;
 
 import io.netty.buffer.ByteBufUtil;
 import io.netty.util.CharsetUtil;
+import io.netty.util.ReferenceCountUtil;
 import io.netty.util.internal.PlatformDependent;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -86,6 +87,15 @@ public class UsefulUtilityDemo {
 //        boolean released = buffer.release(); #1
 //...
 
+    }
+
+    /**
+     * 当资源不再使用之后，可以手动显示释放资源,典型的使用场景是在各种channelHandler实现里面
+     */
+    @Test
+    public void referenceCounUtil() {
+        Object obj = new Object();
+        ReferenceCountUtil.release(obj);
     }
 
 }

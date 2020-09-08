@@ -1,6 +1,7 @@
 package com.shulian.netty;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -58,6 +59,10 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 //        ctx.channel().write("test data");
         //写法2:不会即刻把消息写到通道，会先存到缓冲区。 还要调用flush方法才能将缓冲区数据刷到channel中, 或者直接调用writeAndFlush方法
 //        ctx.write("test data");
+
+//        可以通过ctx.alloc()或者 channel.alloc()获取  ByteBufAllocator
+//        ctx.alloc()
+        ByteBufAllocator alloc = ctx.alloc();
 
     }
 

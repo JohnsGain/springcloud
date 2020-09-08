@@ -1,6 +1,7 @@
 package com.shulian.netty;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +44,11 @@ public class BytebufDemo2 {
      */
     @Test
     public void readWrite() {
+
         Charset utf8 = Charset.forName("UTF-8");
         ByteBuf byteBuf = Unpooled.buffer(5, 100);
+
+//        byteBuf.hasArray()
         byteBuf.writeByte(5);
         log.info("readInex={},wirteInde={},capa={}", byteBuf.readerIndex(), byteBuf.writerIndex(), byteBuf.capacity());
 
@@ -63,7 +67,42 @@ public class BytebufDemo2 {
         System.out.println(byteBuf.readDouble());
         log.info("readInex={},wirteInde={},capa={}", byteBuf.readerIndex(), byteBuf.writerIndex(), byteBuf.capacity());
 
-        System.out.println(byteBuf.maxCapacity() );
+        System.out.println(byteBuf.maxCapacity());
+    }
+
+    /**
+     * ByteBufUtil provides static helper methods for manipulating a ByteBuf. Because this
+     * API is generic and unrelated to pooling, these methods have been implemented outside the allocation classes.
+     *
+     * 其中两个重要的api： hexdump:按16进制格式打印bytebuf的字节内容
+     * equal(bytebuf1,bytebuf2)
+     */
+    @Test
+    public void bytebufUtil() {
+        ByteBuf byteBuf = Unpooled.copiedBuffer("hello world!", CharsetUtil.UTF_8);
+        //以16进制格式打印bytebuf内容
+        String hexDump = ByteBufUtil.hexDump(byteBuf);
+        System.out.println(hexDump);
+        System.out.println("Integer.toBinaryString(-17)=="+Integer.toBinaryString(-17));
+        int count = Integer.bitCount(17);
+        System.out.println(count);
+//        Integer.parseInt(hexDump,hexDump)
+        ByteBuf wrappedBuffer = Unpooled.wrappedBuffer("hello world!".getBytes(CharsetUtil.UTF_8));
+
+
+    }
+
+    /**
+     * 都转换成10进制
+     */
+    @Test
+    public void radix() {
+        System.out.println(Integer.parseInt("FF", 16));
+        System.out.println(Integer.parseInt("05060708", 16));
+        System.out.println(Integer.parseInt("77", 8));
+        Integer a = 0x05060708;
+        byte value = a.byteValue();
+
     }
 
 

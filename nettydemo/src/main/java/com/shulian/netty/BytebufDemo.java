@@ -70,12 +70,13 @@ public class BytebufDemo {
      */
     @Test
     public void direct() {
-        ByteBuf directBuffer = Unpooled.directBuffer(10, 1024 * 1024);
+        ByteBuf directBuffer = Unpooled.directBuffer(1024, 1024 * 1024);
         if (!directBuffer.hasArray()) {
+            directBuffer.writeDouble(8.9);
             int readableBytes = directBuffer.readableBytes();
             byte[] data = new byte[readableBytes];
             //这种 getBytes方式和readBytes不同，他不会改变buffer的读写下标
-            directBuffer.getBytes(0, data);
+            directBuffer.getBytes(5, data);
             doSomething(data, 0, readableBytes);
 
         }
@@ -173,7 +174,7 @@ public class BytebufDemo {
         int index = byteBuf.indexOf(0, byteBuf.capacity(), (byte) 66);
         System.out.println(index);
         //返回23的下标，从当前readIndex开始查找
-        byteBuf.readBytes(2);
+        ByteBuf byteBuf1 = byteBuf.readBytes(2);
         log.info("readInex={},wirteInde={},capa={}", byteBuf.readerIndex(), byteBuf.writerIndex(), byteBuf.capacity());
         int before = byteBuf.bytesBefore((byte) 23);
         System.out.println(before);
@@ -196,14 +197,15 @@ public class BytebufDemo {
         log.info("readInex={},wirteInde={},capa={}", byteBuf.readerIndex(), byteBuf.writerIndex(), byteBuf.capacity());
         byteBuf.readByte();
         log.info("readInex={},wirteInde={},capa={}", byteBuf.readerIndex(), byteBuf.writerIndex(), byteBuf.capacity());
-
+        byteBuf.readChar();
+        byteBuf.markReaderIndex();
+        byteBuf.readByte();
         byteBuf.resetReaderIndex();
         log.info("readInex={},wirteInde={},capa={}", byteBuf.readerIndex(), byteBuf.writerIndex(), byteBuf.capacity());
 
-
+        //这里可能报错，当索引重置之后，写索引小于读索引的时候，抛出 IndexOutOfBoundsException
         byteBuf.resetWriterIndex();
         log.info("readInex={},wirteInde={},capa={}", byteBuf.readerIndex(), byteBuf.writerIndex(), byteBuf.capacity());
-
 
     }
 
