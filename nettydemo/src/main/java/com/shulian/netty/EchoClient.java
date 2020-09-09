@@ -1,10 +1,10 @@
 package com.shulian.netty;
 
+import com.shulian.netty.handler.EchoClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.local.LocalAddress;
 import io.netty.channel.local.LocalChannel;
-import io.netty.channel.local.LocalServerChannel;
 import lombok.extern.slf4j.Slf4j;
 
 import static java.lang.System.getProperty;
