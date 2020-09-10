@@ -46,7 +46,8 @@ public class UserController {
 
     public List<User> dsl(String name, Integer age, Long id) {
         QUser qUser = QUser.user;
-        List<Tuple> fetch = queryFactory.select(qUser.name, qUser.sex).from(qUser).where(qUser.name.eq(name).and(qUser.age.gt(age)).or(qUser.name.startsWith(name).and(qUser.age.lt(age)))).fetch();
+        List<Tuple> fetch = queryFactory.select(qUser.name, qUser.sex).from(qUser)
+                .where(qUser.name.eq(name).and(qUser.age.gt(age)).or(qUser.name.startsWith(name).and(qUser.age.lt(age)))).fetch();
         for (Tuple tuple : fetch) {
             String uname = tuple.get(qUser.name);
             Integer integer = tuple.get(qUser.sex);
