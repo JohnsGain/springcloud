@@ -1,4 +1,4 @@
-package com.shulian.netty;
+package com.shulian.netty.handler;
 
 import io.netty.channel.CombinedChannelDuplexHandler;
 import lombok.extern.slf4j.Slf4j;

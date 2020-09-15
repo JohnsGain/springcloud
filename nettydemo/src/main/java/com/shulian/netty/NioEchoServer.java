@@ -3,6 +3,7 @@ package com.shulian.netty;
 import com.shulian.netty.handler.EchoServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -48,6 +49,16 @@ public class NioEchoServer {
                     });
 //sync：当前线程会阻塞，直到服务端启动脚本绑定完成
             ChannelFuture future = serverBootstrap.bind().sync();
+            future.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture future) throws Exception {
+                    if (future.isSuccess()) {
+                        System.out.println("server bound success!");
+                    } else {
+                        System.out.println("server bound failed!" + future.cause());
+                    }
+                }
+            });
             //当前线程会阻塞,直到未来这个通道关闭事件发生
             future.channel().closeFuture().sync();
         } finally {
