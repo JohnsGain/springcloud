@@ -1,4 +1,4 @@
-package com.shulian.netty;
+package com.shulian.netty.component;
 
 import io.netty.buffer.ByteBufUtil;
 import io.netty.util.CharsetUtil;

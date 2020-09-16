@@ -11,6 +11,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
 import io.netty.util.CharsetUtil;
+import io.netty.util.concurrent.Future;
 
 import java.net.InetSocketAddress;
 
@@ -57,8 +58,8 @@ public class AttributeValueClient {
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            eventLoopGroup.shutdownGracefully();
-
+            Future<?> future = eventLoopGroup.shutdownGracefully();
+            future.syncUninterruptibly();
         }
 
     }

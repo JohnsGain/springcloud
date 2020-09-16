@@ -2,9 +2,13 @@ package com.shulian.netty;
 
 import com.shulian.netty.handler.EchoClientHandler;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.*;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.DefaultEventLoopGroup;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.local.LocalAddress;
 import io.netty.channel.local.LocalChannel;
+import io.netty.util.concurrent.Future;
 import lombok.extern.slf4j.Slf4j;
 
 import static java.lang.System.getProperty;
@@ -52,7 +56,8 @@ public class EchoClient {
             ChannelFuture sync = bootstrap.connect().sync();
             sync.channel().closeFuture().sync();
         } finally {
-            group.shutdownGracefully().sync();
+            Future<?> sync = group.shutdownGracefully().sync();
+            sync.syncUninterruptibly();
         }
     }
 }

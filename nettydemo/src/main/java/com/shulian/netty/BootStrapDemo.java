@@ -7,6 +7,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.channel.socket.oio.OioSocketChannel;
 import io.netty.util.CharsetUtil;
+import io.netty.util.concurrent.Future;
 
 import java.net.InetSocketAddress;
 
@@ -51,8 +52,12 @@ public class BootStrapDemo {
                     }
                 }
             });
+            sync.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } finally {
+            Future<?> future = eventExecutors.shutdownGracefully();
+            future.syncUninterruptibly();
         }
 
 
