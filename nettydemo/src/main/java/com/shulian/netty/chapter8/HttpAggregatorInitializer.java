@@ -3,10 +3,7 @@ package com.shulian.netty.chapter8;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
-import io.netty.handler.codec.http.HttpClientCodec;
-import io.netty.handler.codec.http.HttpContentCompressor;
-import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.http.*;
 
 /**
  * 通过把自动聚合器添加到pipeline里面，让用户可以方便地获取到完整的httprequest和httpresponse消息，
@@ -45,14 +42,16 @@ public class HttpAggregatorInitializer extends ChannelInitializer<Channel> {
         ChannelPipeline pipeline = ch.pipeline();
         if (client) {
             pipeline.addLast("codec", new HttpClientCodec());
+            pipeline.addLast("decompressor", new HttpContentDecompressor());
         } else {
             pipeline.addLast("codec", new HttpServerCodec());
+            pipeline.addLast("compressor", new HttpContentCompressor());
         }
 //        Add HttpObjectAggregator to the ChannelPipeline, using a max message size of 512kb. After the
 //        message is getting bigger a TooLongFrameException is thrown.
         pipeline.addLast("aggregator", new HttpObjectAggregator(512 * 1024));
 
-        pipeline.addLast("decompressor", new HttpContentCompressor());
+
     }
 
 }

@@ -8,8 +8,7 @@ import java.util.List;
 
 /**
  * there are more complex examples which use the MessageToMessageEncoder. One of
- * those is the ProtobufEncoder which can be found in the io.netty.handler.codec.protobuf
- * package.
+ * those is the ProtobufEncoder which can be found in the io.netty.handler.codec.protobuf package.
  * @author zhangjuwa
  * @apiNote
  * @date 2020-04-07 16:42

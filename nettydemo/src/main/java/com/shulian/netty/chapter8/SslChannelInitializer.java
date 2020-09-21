@@ -2,6 +2,7 @@ package com.shulian.netty.chapter8;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
+import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslHandler;
 
 import javax.net.ssl.SSLContext;
@@ -18,6 +19,13 @@ import javax.net.ssl.SSLEngine;
  * their transformations/logic to the data before it’s encrypted, thus ensuring that changes from
  * all handlers are secured on a Netty server.
  *
+ * 这个类 shows how an SslHandler is added to a ChannelPipeline using a ChannelInitializer.
+ * Recall that ChannelInitializer is used to set up the ChannelPipeline
+ * once a Channel is registered
+ *
+ * In most cases the SslHandler will be the first ChannelHandler in the ChannelPipeline.
+ * This ensures that encryption will take place only after all other ChannelHandlers have
+ * applied their logic to the data.
  *
  * @author zhangjuwa
  * @apiNote
@@ -26,11 +34,12 @@ import javax.net.ssl.SSLEngine;
  */
 public class SslChannelInitializer extends ChannelInitializer<Channel> {
 
-    private final SSLContext context;
+    //    private final SSLContext context;
+    private final SslContext context;
     private final boolean client;
     private final boolean startTls;
 
-    public SslChannelInitializer(SSLContext context, boolean client, boolean startTls) {
+    public SslChannelInitializer(SslContext context, boolean client, boolean startTls) {
         this.context = context;
         this.client = client;
         this.startTls = startTls;
@@ -44,8 +53,10 @@ public class SslChannelInitializer extends ChannelInitializer<Channel> {
      */
     @Override
     protected void initChannel(Channel ch) throws Exception {
-        SSLEngine sslEngine = context.createSSLEngine();
+//        SSLEngine sslEngine = context.createSSLEngine();
+        SSLEngine sslEngine = context.newEngine(ch.alloc());
         sslEngine.setUseClientMode(client);
         ch.pipeline().addFirst("ssl",new SslHandler(sslEngine, startTls));
     }
+
 }

@@ -15,6 +15,11 @@ import java.util.List;
  * integers we will extend the ByteToMessageDecoder in our implementation, which we call
  * ToIntegerDecoder.
  *
+ *
+ <p>
+ * Be aware that sub-classes of {@link ByteToMessageDecoder} <strong>MUST NOT</strong>
+ * annotated with {@link @Sharable}.
+ * <p>
  * @author zhangjuwa
  * @apiNote
  * @date 2020-04-07 12:21
