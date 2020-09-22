@@ -1,4 +1,4 @@
-package com.shulian.netty.chapter8;
+package com.shulian.netty.channelinitializer;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;

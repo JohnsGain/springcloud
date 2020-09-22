@@ -1,4 +1,4 @@
-package com.shulian.netty.chapter8;
+package com.shulian.netty.channelinitializer;
 
 import io.netty.channel.*;
 import io.netty.handler.codec.http.HttpObjectAggregator;
@@ -7,14 +7,16 @@ import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.ContinuationWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
-import io.netty.handler.ssl.SslHandler;
 
 /**
- * Netty offers many ways to use WebSockets, but the easiest one, which works for most
- * users, is using the WebSocketServerProtocolHandler when writing a WebSockets server, as
- * shown in listing 8.6. This handles the handshake and also the CloseWebSocketFrame,
- * PingWebSocketFrame, and PongWebSocketFrame for you.
+ * presents a simple example using WebSocketServerProtocolHandler. This class handles the protocol
+ *  upgrade handshake as well as the
+ * three control frames—Close, Ping, and Pong. Text and Binary data frames will be
+ * passed along to the next handlers (implemented by you) for processing
  *
+ *
+ * Secure WebSocket
+ * To add security to WebSocket, simply insert the SslHandler as the first ChannelHandler in the pipeline
  * @author zhangjuwa
  * @apiNote
  * @date 2020-04-14 11:22
