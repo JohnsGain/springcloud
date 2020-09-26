@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>websockt</title>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" >
+        var webSocket;
+
+        /**
+         * WebSocket客户端
+         *
+         * 使用说明：
+         * 1、WebSocket客户端通过回调函数来接收服务端消息。例如：webSocket.onmessage
+         * 2、WebSocket客户端通过send方法来发送消息给服务端。例如：webSocket.send();
+         */
+        function getWebSocket() {
+            /**
+             * WebSocket客户端 PS：URL开头表示WebSocket协议 中间是域名端口 结尾是服务端映射地址
+             */
+            var socket = new WebSocket('ws://localhost:8778/ws');
+            /**
+             * 当服务端打开连接
+             */
+            socket.onopen = function (event) {
+                console.log('WebSocket打开连接');
+            };
+
+            /**
+             * 当服务端发来消息：1.广播消息 2.更新在线人数
+             */
+            socket.onmessage = function (event) {
+                console.log('WebSocket收到消息：%c' + event.data, 'color:green');
+                //获取服务端消息
+                var message = event.data || {};
+                var $messageContainer = $('.message-container');
+                //喉咙发炎
+                if (message.type === 'SPEAK') {
+                    $messageContainer.append(
+                        '<div class="mdui-card" style="margin: 10px 0;">' +
+                        '<div class="mdui-card-primary">' +
+                        '<div class="mdui-card-content message-content">' + message.username + "：" + message.msg + '</div>' +
+                        '</div></div>');
+                }
+                $('.chat-num').text(message.onlineCount);
+                //防止刷屏
+                var $cards = $messageContainer.children('.mdui-card:visible').toArray();
+                if ($cards.length > 5) {
+                    $cards.forEach(function (item, index) {
+                        index < $cards.length - 5 && $(item).slideUp('fast');
+                    });
+                }
+            };
+
+            /**
+             * 关闭连接
+             */
+            socket.onclose = function (event) {
+                console.log('WebSocket关闭连接');
+            };
+
+            /**
+             * 通信失败
+             */
+            socket.onerror = function (event) {
+                console.log('WebSocket发生异常');
+
+            };
+            webSocket = socket;
+            return socket;
+        }
+
+        /**
+         * 通过WebSocket对象发送消息给服务端
+         */
+        function sendMsgToServer() {
+            var $message = $('#textId');
+            if ($message.val()) {
+                webSocket.send($message.val());
+                $message.val(null);
+            }
+
+        }
+
+        /**
+         * 清屏
+         */
+        function clearMsg() {
+            $(".message-container").empty();
+        }
+
+        /**
+         * 使用ENTER发送消息
+         */
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            e.keyCode === 13 && sendMsgToServer();
+        };
+    </script>
+</head>
+<body>
+<h1>演示websocket!!!</h1>
+<div>
+    <div>
+        <button id="start" onclick="getWebSocket()">启动websocket</button>
+    </div>
+    <label for="textId">输入要发送的消息:</label><input type="text" value="" id="textId" class="textClass" name="textName">
+    <button onclick="sendMsgToServer()">点击发送</button>
+</div>
+</body>
+</html>

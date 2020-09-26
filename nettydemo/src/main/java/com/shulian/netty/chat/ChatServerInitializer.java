@@ -54,6 +54,7 @@ public class ChatServerInitializer extends ChannelInitializer<Channel> {
     @Override
     protected void initChannel(Channel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
+//        pipeline.addLast(new ChannelActiveHandler());
         //对http数据进行编码以支持Http协议，A combination of {@link HttpRequestDecoder} and {@link HttpResponseEncoder}
 //        Decodes bytes to HttpRequest, HttpContent,
 //        and LastHttpContent. Encodes HttpRequest,
@@ -78,4 +79,5 @@ public class ChatServerInitializer extends ChannelInitializer<Channel> {
 
 
     }
+
 }

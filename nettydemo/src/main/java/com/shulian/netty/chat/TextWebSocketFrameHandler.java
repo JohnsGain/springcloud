@@ -36,8 +36,7 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
-        String text = msg.text();
-        log.info("当前通道{}接收的内容={}", ctx.channel(), msg);
+        log.info("当前通道{}接收的内容={}", ctx.channel(), msg.text());
         group.writeAndFlush(msg.retain());
     }
 

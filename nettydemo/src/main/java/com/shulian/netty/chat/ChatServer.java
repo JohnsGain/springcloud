@@ -10,6 +10,7 @@ import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.ImmediateEventExecutor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
 
@@ -22,6 +23,7 @@ import java.net.InetSocketAddress;
  * @date 2020-09-25 23:44
  * @since jdk1.8
  */
+@Slf4j
 public class ChatServer {
 
     private final ChannelGroup channelGroup = new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE);
@@ -37,13 +39,14 @@ public class ChatServer {
                 .childHandler(createInitializer(channelGroup));
         ChannelFuture channelFuture = serverBootstrap.bind(address);
         channelFuture.syncUninterruptibly();
+        log.info("chatServer绑定本地端口{}成功", address.getPort());
         channel = channelFuture.channel();
         return channelFuture;
     }
 
 
     public static void main(String[] args) {
-        int port = 9876;
+        int port = 8778;
         ChatServer endpoint = new ChatServer();
         ChannelFuture channelFuture = endpoint.start(new InetSocketAddress(port));
         Runtime.getRuntime().addShutdownHook(new Thread(endpoint::destroy));
