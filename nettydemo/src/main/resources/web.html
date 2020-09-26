@@ -56,14 +56,14 @@
              * 关闭连接
              */
             socket.onclose = function (event) {
-                console.log('WebSocket关闭连接');
+                console.log('WebSocket关闭连接'+event);
             };
 
             /**
              * 通信失败
              */
             socket.onerror = function (event) {
-                console.log('WebSocket发生异常');
+                console.log('WebSocket发生异常'+event);
 
             };
             webSocket = socket;

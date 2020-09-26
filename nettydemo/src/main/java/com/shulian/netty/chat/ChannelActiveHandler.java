@@ -1,10 +1,8 @@
 package com.shulian.netty.chat;
 
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -35,8 +33,9 @@ public class ChannelActiveHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("连接成功!!!!");
-        ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!!!!!!", CharsetUtil.UTF_8));
+//        ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!!!!!!", CharsetUtil.UTF_8));
         ctx.fireChannelActive();
+        ctx.pipeline().remove(this);
     }
 
     @Override

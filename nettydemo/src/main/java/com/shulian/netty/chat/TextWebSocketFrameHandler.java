@@ -62,5 +62,8 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
         }
     }
 
-
+//    @Override
+//    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+//        group.
+//    }
 }
