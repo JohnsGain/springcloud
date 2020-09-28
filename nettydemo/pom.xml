@@ -66,6 +66,14 @@
             <version>3.13.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/io.netty/netty-example -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-example</artifactId>
+            <version>4.1.52.Final</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>
