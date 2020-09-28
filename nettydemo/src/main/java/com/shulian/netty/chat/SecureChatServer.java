@@ -55,7 +55,7 @@ public class SecureChatServer {
         ChannelFuture channelFuture = null;
         try {
             SelfSignedCertificate certificate = new SelfSignedCertificate();
-            SslContext context = SslContextBuilder.forServer(certificate.privateKey(), certificate.certificate()).build();
+            SslContext context = SslContextBuilder.forServer(certificate.certificate(), certificate.privateKey()).build();
             channelFuture = endpoint.start(new InetSocketAddress(port), context);
         } catch (CertificateException e) {
             log.warn("获取签名证书异常", e);
