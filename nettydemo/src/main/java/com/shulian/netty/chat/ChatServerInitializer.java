@@ -77,8 +77,8 @@ public class ChatServerInitializer extends ChannelInitializer<Channel> {
         pipeline.addLast(new HttpRequestHandler("/ws"));
         //处理websocket 的控制帧 close,ping,ping。websocket连接的 握手处理，对文本，二进制数据就传到下一个cha
         pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
-        pipeline.addLast(new IdleStateHandler(60, 0, 0));
-        pipeline.addLast(new HeartbeatHandler());
+//        pipeline.addLast(new IdleStateHandler(60, 0, 0));
+//        pipeline.addLast(new HeartbeatHandler());
 //        Handles TextWebSocketFrames and handshakecompletion events
         pipeline.addLast(new TextWebSocketFrameHandler(group));
 
