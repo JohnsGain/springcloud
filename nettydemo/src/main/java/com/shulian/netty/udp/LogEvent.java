@@ -20,8 +20,17 @@ public class LogEvent {
 
     public static final byte SEPARATOR = (byte) ':';
     private final InetSocketAddress source;
+    /**
+     * 文件名
+     */
     private final String logfile;
+    /**
+     * 事件消息内容
+     */
     private final String msg;
+    /**
+     * 接收消息那一刻的时间戳
+     */
     private final long received;
 
     public LogEvent(String logfile, String msg) {
