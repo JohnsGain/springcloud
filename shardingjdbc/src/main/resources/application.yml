@@ -10,41 +10,60 @@ spring:
       password: zhangJW.428
       auto-commit: true
       allow-pool-suspension: true
+      pool-name: FlyduckHikariCP
       data-source-properties:
         cachePrepStmts: true
         prepStmtCacheSize: 250
         prepStmtCacheSqlLimit: 2048
         useServerPrepStmts: true
+        netTimeoutForStreamingResults: 30
       connection-timeout: 10000
       maximum-pool-size: 100
       minimum-idle: 5
       idle-timeout: 30000
       # 默认的是30s，如果idleTimeout+1秒 = 31 > maxLifetime = 30 且 maxLifetime>0，则会被重置为0（代表永远不会退出）；导致数据库端已关闭连接，而连接池仍持有
       max-lifetime: 50000
+      driver-class-name: com.mysql.cj.jdbc.Driver
 
   shardingsphere:
     datasource:
       names: ds1
       ds1:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: ${spring.datasource.driver-class-name}
+#        dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+        driverClassName: ${spring.datasource.driver-class-name}
+
         jdbc-url: ${spring.datasource.url}
         username: root
         password: zhangJW.428
-    sharding:
-      tables:
-        gsp_order:
-          #指定 order 表的分布情况，配置表在哪个数据库中，表名称是什么
-          actual-data-nodes: ds1.gsp_order_$->{1..2}
-          #指定orders表里主键id生成策略
-          key-generator:
-            column: id
-            type: SNOWFLAKE
-    #指定分片策略。根据id的奇偶性来判断插入到哪个表
-          table-strategy:
-            inline:
-              sharding-column: id
-              algorithm-expression: gsp_order_${id%2+1}
+    rules:
+      sharding:
+        tables:
+          gsp_order:
+            #指定 order 表的分布情况，配置表在哪个数据库中，表名称是什么
+            actual-data-nodes: ds1.gsp_order_$->{1..2}
+            #指定分片策略。根据id的奇偶性来判断插入到哪个表
+            table-strategy:
+              standard:
+                sharding-column: id
+                sharding-algorithm-name: gsp_order_inline
+            keyGenerateStrategy:
+              column: id
+              keyGeneratorName: snowflake
+        default-key-generate-strategy:
+          column: id # 自增列名称
+          key-generator-name: snowflake  # 分布式序列算法名称
+        key-generators:
+          snowflake:
+            type: SNOWFLAKE # 分布式序列算法类型
+
+        sharding-algorithms:
+          gsp_order_inline:
+            type: INLINE
+            props:
+              algorithm-expression: gsp_order_${id % 2+1}
+
+
     #打开sql输出日志
     props:
       sql:

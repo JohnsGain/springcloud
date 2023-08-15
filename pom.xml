@@ -116,6 +116,7 @@
         <module>kafka</module>
         <module>zookeepercli</module>
         <module>flowable</module>
+        <module>spring-batch</module>
     </modules>
 
 

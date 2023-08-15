@@ -71,6 +71,12 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-example</artifactId>
             <version>4.1.52.Final</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-tcnative</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 

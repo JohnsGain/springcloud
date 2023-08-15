@@ -26,6 +26,9 @@ import java.util.List;
 @Slf4j
 public class LogEventEncoder extends MessageToMessageEncoder<LogEvent> {
 
+    /**
+     * 接收端的网络地址，255.255.255.255表示本地局域网内所有主机都可以接受到，并且不会被路由器转发到其他 网络
+     */
     private final InetSocketAddress remoteAddress;
 
     public LogEventEncoder(InetSocketAddress remoteAddress) {
