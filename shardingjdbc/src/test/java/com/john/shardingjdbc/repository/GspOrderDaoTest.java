@@ -1,6 +1,7 @@
 package com.john.shardingjdbc.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.google.common.collect.Lists;
 import com.john.shardingjdbc.BaseTest;
 import com.john.shardingjdbc.domain.entity.GspOrderEntity;
 import com.john.shardingjdbc.domain.repository.GspOrderDao;
@@ -32,6 +33,7 @@ public class GspOrderDaoTest extends BaseTest {
 //        hintManager.addTableShardingValue("gsp_order",);
     }
 
+
     @Test
     public void selectList() {
         LambdaQueryWrapper<GspOrderEntity> wrapper = new LambdaQueryWrapper<>();
@@ -43,10 +45,11 @@ public class GspOrderDaoTest extends BaseTest {
 
     @Test
     public void selectById() {
-        GspOrderEntity entity = gspOrderDao.selectById(895475209836953601L);
-        System.out.println(entity);
-        GspOrderEntity entity1 = gspOrderDao.selectById(895475209887285248L);
-        System.out.println(entity1);
+//        GspOrderEntity entity = gspOrderDao.selectById(895475209836953601L);
+//        System.out.println(entity);
+        List<GspOrderEntity> entity1 = gspOrderDao.selectBatchIds(
+                Lists.newArrayList(895475209887285248L, 899053649433460737L));
+        System.out.println(JsonUtils.toString(entity1));
     }
 
     @Test
