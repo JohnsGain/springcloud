@@ -1,4 +1,4 @@
-> 参考文档 https://zhuanlan.zhihu.com/p/425151447, https://www.cnblogs.com/baixianlong/p/12644027.html
+> 参考文档 https://zhuanlan.zhihu.com/p/425151447, https://www.cnblogs.com/baixianlong/p/12644027.htmlshardingjdbc.sql
 # 关于分库分表的思考
 
 ## 分库分表为了什么？
