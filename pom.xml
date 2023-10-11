@@ -103,7 +103,6 @@
     </build>
     <modules>
         <module>eureka</module>
-        <module>eurekaclient</module>
         <module>ribbon</module>
         <module>feign</module>
         <module>config</module>
@@ -117,6 +116,7 @@
         <module>zookeepercli</module>
         <module>flowable</module>
         <module>spring-batch</module>
+        <module>flink</module>
     </modules>
 
 
