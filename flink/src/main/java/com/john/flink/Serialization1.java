@@ -1,7 +1,9 @@
 package com.john.flink;
 
 import org.apache.flink.api.common.ExecutionConfig;
+import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -23,5 +25,9 @@ public class Serialization1 {
         TypeInformation<NoPojoDo> typeInformation1 = TypeInformation.of(NoPojoDo.class);
         // 不是Pojo   返回  KryoSerializer
         System.out.println(typeInformation1.createSerializer(new ExecutionConfig()));
+
+        TypeInformation<Tuple2<String, Integer>> typeInformation3 = TypeInformation.of(new TypeHint<Tuple2<String, Integer>>() {
+        });
+        System.out.println(typeInformation3.createSerializer(new ExecutionConfig()));
     }
 }
