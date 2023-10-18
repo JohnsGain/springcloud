@@ -54,7 +54,7 @@ public class RowDataTypeSerial {
 
         @Override
         public TypeInformation<Row> getProducedType() {
-            return Types.ROW(Types.STRING, Types.LONG, Types.BOOLEAN);
+            return Types.ROW(Types.STRING, Types.LONG, Types.BOOLEAN,Types.OBJECT_ARRAY(Types.STRING));
         }
 
         @Override
