@@ -1,5 +1,6 @@
 package com.john.flink.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.apache.flink.annotation.VisibleForTesting;
 import org.apache.flink.streaming.runtime.streamrecord.StreamRecord;
@@ -15,6 +16,7 @@ import java.time.Instant;
  * @since jdk17
  */
 @Data
+@AllArgsConstructor
 public class TaxiRide implements Serializable, Comparable<TaxiRide> {
 
     public long rideId;
