@@ -2,7 +2,8 @@
 * springcloud practice
 * springcloud practice
 * springcloud practice124324325
-* flink practive
+* shardingjdbc
+* flink
 
 ### 新增flink 学习项目 2023-10-20
 *基本概念*
