@@ -41,6 +41,7 @@ public class StreamSourceDemo {
 
     @Test
     public void test() {
+        StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
         //        environment.readTextFile()
         FileSource<String> source = FileSource.forRecordStreamFormat(new TextLineInputFormat(),
                 new Path("/Users/zhangjuwa/Documents/javaProject/springcloud/README.md")).build();
