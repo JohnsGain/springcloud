@@ -1,0 +1,137 @@
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.1.101:3306/shardingjdbc?useUnicode=yes&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: zhangJW.428
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      username: root
+      password: zhangJW.428
+      auto-commit: true
+      allow-pool-suspension: true
+      pool-name: FlyduckHikariCP
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        netTimeoutForStreamingResults: 30
+      connection-timeout: 10000
+      maximum-pool-size: 100
+      minimum-idle: 5
+      idle-timeout: 30000
+      # 默认的是30s，如果idleTimeout+1秒 = 31 > maxLifetime = 30 且 maxLifetime>0，则会被重置为0（代表永远不会退出）；导致数据库端已关闭连接，而连接池仍持有
+      max-lifetime: 50000
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+  shardingsphere:
+    datasource:
+      names: ds1
+      ds1:
+        type: com.zaxxer.hikari.HikariDataSource
+#        dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+        driverClassName: ${spring.datasource.driver-class-name}
+
+        jdbc-url: ${spring.datasource.url}
+        username: root
+        password: zhangJW.428
+    rules:
+      sharding:
+        tables:
+          gsp_order:
+            #指定 order 表的分布情况，配置表在哪个数据库中，表名称是什么
+            actual-data-nodes: ds1.gsp_order_$->{1..2}
+            #指定分片策略。根据id的奇偶性来判断插入到哪个表
+            table-strategy:
+              standard:
+                sharding-column: id
+                sharding-algorithm-name: gsp_order_inline
+            keyGenerateStrategy:
+              column: id
+              keyGeneratorName: snowflake
+
+          sharding_mod:
+            #指定 order 表的分布情况，配置表在哪个数据库中，表名称是什么
+            actual-data-nodes: ds1.sharding_mod_$->{0..4}
+            #指定分片策略。根据id的奇偶性来判断插入到哪个表
+            table-strategy:
+              standard:
+                sharding-column: id
+                sharding-algorithm-name: sharding_mod_custom
+            keyGenerateStrategy:
+              column: id
+              keyGeneratorName: snowflake
+        default-key-generate-strategy:
+          column: id # 自增列名称
+          key-generator-name: snowflake  # 分布式序列算法名称
+        key-generators:
+          snowflake:
+            type: SNOWFLAKE # 分布式序列算法类型
+
+        sharding-algorithms:
+          gsp_order_inline:
+            type: INLINE
+            props:
+              algorithm-expression: gsp_order_${id % 2+1}
+          sharding_mod_custom:
+            #自定义type
+            type: CLASS_BASED
+            props:
+              strategy: STANDARD #标准分片类型
+              ##这里填写自定义类的完整包路径
+              algorithmClassName: com.john.shardingjdbc.algorithm.MyTablePreciseShardingAlgorithm
+              # shardingjdbc自带取模算法:最基础的取模算法，它会根据分片字段的值和sharding-count进行取模运算
+          system_mod:
+            # ModShardingAlgorithm
+            type: MOD
+            props:
+              sharding-count: 12
+          system_hash_mod:
+            # 取模算法相同，唯一的区别是针对分片键得到哈希值之后再取模 HashModShardingAlgorithm
+            type: HASH_MOD
+            props:
+              sharding-count: 12
+          system_range:
+            # 分片容量范围分片:按照某个字段的数值范围进行分片,(0~199)保存到表0[200~399]保存到表1[400~599)保存到表2
+            type: VOLUME_RANGE
+            props:
+              range-lower:
+          system_boundary:
+            # BoundaryBasedRangeShardingAlgorithm
+            # 分片容量范围分片，是一个均衡的分片方法，如果存在不均衡的场景，比如下面这种情况
+            # 0~1000)保存到表0[1000~20000]保存到表1[20000~300000)保存到表2[300000~无穷大)保存到表3
+            type: BOUNDARY_RANGE
+            props:
+             # 分片的范围边界，多个范围边界以逗号分隔
+              sharding-ranges: 1000,20000,300000
+          system_interval:
+            # 自动时间段分片算法IntervalShardingAlgorithm
+            # 根据时间段进行分片，如果想实现如下功能
+            # (1970-01-01 23:59:59 ~ 2020-01-01 23:59:59) 表0
+            # [2020-01-01 23:59:59 ~ 2021-01-01 23:59:59) 表1
+            # [2021-01-01 23:59:59 ~ 2021-02-01 23:59:59) 表2
+            # [2022-01-01 23:59:59 ~ 2024-01-01 23:59:59) 表3
+            # ！！！=== 需要注意，如果是基于时间段来分片，那么在查询的时候不能使用函数查询，否则会导致全路由。 ===！！！
+            type: AUTO_INTERVAL
+            props:
+             # 配置方法如下，表示从2010-01-01到2021-01-01这个时间区间内的数据，按照每一年划分一个表
+              datetime-lower: 2010-01-01 23:59:59 # 分片的起始时间范围，时间戳格式：yyyy-MM-dd HH:mm:ss
+              datetime-upper: 2021-01-01 23:59:59 # 分片的结束时间范围，时间戳格式：yyyy-MM-dd HH:mm:ss
+              sharding-seconds: '31536000'  #单一分片所能承载的最大时间范围，单位：秒，这个数字表示1年
+
+    #        binding-tables: xx   //  绑定表
+#        broadcast-tables:   // 广播表：指所有的分片数据源中都存在的表，表结构和表中的数据在每个数据库中均完全一致。
+
+
+    #打开sql输出日志
+    props:
+      sql-show: true
+
+mybatis-plus:
+  type-aliases-package: com.john.shardingjdbc.*.entity
+  configuration:
+    default-fetch-size: 100
+    default-statement-timeout: 10000
+    map-underscore-to-camel-case: true  #下划线匹配驼峰
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql
