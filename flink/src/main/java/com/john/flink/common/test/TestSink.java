@@ -1,7 +1,11 @@
 package com.john.flink.common.test;
 
+import org.apache.flink.api.common.JobExecutionResult;
+import org.apache.flink.api.common.accumulators.ListAccumulator;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
+
+import java.util.List;
 
 /**
  * @author zhangjuwa
@@ -24,13 +28,19 @@ public class TestSink<OUT> extends RichSinkFunction<OUT> {
 
     @Override
     public void open(Configuration parameters) throws Exception {
-        super.open(parameters);
+        getRuntimeContext()
+                .addAccumulator(name, new ListAccumulator<OUT>());
     }
 
     @Override
     public void invoke(OUT value, Context context) throws Exception {
-        super.invoke(value, context);
+        getRuntimeContext()
+                .getAccumulator(name)
+                .add(value);
     }
 
+    public List<OUT> getResults(JobExecutionResult result) {
+        return result.getAccumulatorResult(name);
+    }
 
 }

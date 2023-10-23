@@ -1,10 +1,20 @@
 package com.john.flink.ridecleanse.test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.john.flink.common.TaxiRide;
+import com.john.flink.common.test.ComposedPipeline;
+import com.john.flink.common.test.ExecutablePipeline;
 import com.john.flink.common.test.ParallelTestSource;
+import com.john.flink.common.test.TestSink;
+import com.john.flink.ridecleanse.main.RideCleansingExercise;
+import com.john.flink.ridecleanse.solution.RideCleansingSolution;
+import org.apache.flink.api.common.JobExecutionResult;
 import org.apache.flink.runtime.testutils.MiniClusterResourceConfiguration;
 import org.apache.flink.test.util.MiniClusterWithClientResource;
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
 
 /**
  * @author zhangjuwa
@@ -30,6 +40,18 @@ public class RideCleansingIntegrationTest extends RideCleansingTestBase {
         TaxiRide atNorthPole = testRide(0, 90, 0, 90);
         ParallelTestSource<TaxiRide> source =
                 new ParallelTestSource<>(toThePole, fromThePole, atPennStation, atNorthPole);
+        TestSink<TaxiRide> sink = new TestSink<>();
 
+        JobExecutionResult executionResult = rideCleansingPipeline().execute(source, sink);
+        List<TaxiRide> rideList = sink.getResults(executionResult);
+        System.out.println(new ObjectMapper().writeValueAsString(rideList));
+        Assert.assertTrue(rideList.contains(atPennStation));
+    }
+
+    protected ComposedPipeline<TaxiRide, TaxiRide> rideCleansingPipeline() {
+        ExecutablePipeline<TaxiRide, TaxiRide> exercise = (source, sink) -> new RideCleansingExercise(source, sink).execute();
+        ExecutablePipeline<TaxiRide, TaxiRide> solution = (source, sink) -> new RideCleansingSolution(source, sink).execute();
+
+        return new ComposedPipeline<>(exercise, solution);
     }
 }
