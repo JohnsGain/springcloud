@@ -1,7 +1,7 @@
 package com.john.flink.serial;
 
-import com.john.flink.NoPojoDo;
-import com.john.flink.Person;
+import com.john.flink.demo.NoPojoDo;
+import com.john.flink.demo.Person;
 import com.twitter.chill.protobuf.ProtobufSerializer;
 import com.twitter.chill.thrift.TBaseSerializer;
 import org.apache.flink.api.common.ExecutionConfig;

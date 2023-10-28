@@ -15,6 +15,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <flink.version>1.17.1</flink.version>
     </properties>
     <dependencies>
         <dependency>
@@ -98,5 +99,13 @@
             <artifactId>flink-test-utils</artifactId>
             <version>1.17.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-parquet -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-parquet</artifactId>
+            <version>1.17.1</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 </project>

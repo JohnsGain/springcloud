@@ -1,4 +1,4 @@
-package com.john.flink;
+package com.john.flink.demo;
 
 /**
  * @author zhangjuwa

@@ -1,4 +1,4 @@
-package com.john.flink;
+package com.john.flink.demo;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
