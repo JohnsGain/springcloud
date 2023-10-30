@@ -9,6 +9,7 @@ import org.apache.flink.connector.file.src.reader.TextLineInputFormat;
 import org.apache.flink.core.fs.Path;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.IterativeStream;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.filesystem.rollingpolicies.DefaultRollingPolicy;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ import java.util.List;
  * @date 2023-10-17 02:55
  * @since jdk17
  */
-public class StreamSourceDemo {
+public class DataStreamDemo {
 
     @Test
     public void collectionSource() {
@@ -80,15 +81,46 @@ public class StreamSourceDemo {
      * First, we define an IterativeStream
      */
     @Test
-    public void iterativeStream() {
+    public void iterativeStream() throws Exception {
         StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
         Path path = new Path("/Users/zhangjuwa/Documents/javaProject/springcloud/README.md");
         TextLineInputFormat inputFormat = new TextLineInputFormat();
         FileSource<String> fileSource = FileSource.forRecordStreamFormat(inputFormat, path).build();
         DataStreamSource<String> input = environment.fromSource(fileSource, WatermarkStrategy.noWatermarks(), "README.md");
-//
-        IterativeStream<String> iterativeStream = input.iterate();
+
+        SingleOutputStreamOperator<String> streamOperator = input.map(item -> item + "+++");
+        IterativeStream<String> iterativeStream = streamOperator.iterate();
 //    Then, we specify the logic that will be executed inside the loop using a series of transformations (here a simple map transformation)
+        SingleOutputStreamOperator<String> operator = iterativeStream.map(item -> item + "666");
+
+//        每行字符长度小于50的要补 666
+        SingleOutputStreamOperator<String> le50 = operator.filter(item -> item.length() < 50);
+        iterativeStream.closeWith(le50);
+
+        // 大于50的输出
+        SingleOutputStreamOperator<String> gt50 = operator.filter(item -> item.length() >= 50);
+        System.out.println("长度大于50");
+        gt50.print();
+
+        environment.execute("my iterative test");
+    }
+
+    @Test
+    public void generateSequence() throws Exception {
+        StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
+        DataStreamSource<Long> frommedSequence = environment.fromSequence(0, 100);
+        IterativeStream<Long> iterate = frommedSequence.iterate();
+        SingleOutputStreamOperator<Long> minusOne = iterate.map(item -> item - 1);
+        SingleOutputStreamOperator<Long> stillGreaterThanZero = minusOne.filter(item -> item % 3 == 0);
+
+        iterate.closeWith(stillGreaterThanZero);
+
+        ;
+        // 小于=0的
+        System.out.println("不是3的倍数的");
+//        stillGreaterThanZero.print();
+
+        environment.execute();
     }
 
     private FileSink<String> getFileSink() {
@@ -103,6 +135,11 @@ public class StreamSourceDemo {
         return FileSink.forRowFormat(path, simpleStringEncoder)
                 .withRollingPolicy(rollingPolicy)
                 .build();
+    }
+
+    @Test
+    public void collectAsync() {
+
     }
 
 
