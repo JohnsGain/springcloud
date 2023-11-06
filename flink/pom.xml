@@ -106,6 +106,10 @@
             <version>1.17.1</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
 
     </dependencies>
 </project>
