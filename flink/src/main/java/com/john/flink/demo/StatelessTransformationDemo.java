@@ -85,7 +85,6 @@ public class StatelessTransformationDemo {
 
         SingleOutputStreamOperator<Tuple2<Integer, Minutes>> flattedMap = streamOperator.flatMap((FlatMapFunction<EnrichedRideDemo, Tuple2<Integer, Minutes>>) (value, out) -> {
             if (!value.isStart) {
-
                 out.collect(new Tuple2<>(value.startCell, Duration.millis(100L).toStandardMinutes()));
             }
         });
@@ -95,6 +94,8 @@ public class StatelessTransformationDemo {
                 .print();
 
     }
+
+
 
 
     public static class NYCEnrichment implements FlatMapFunction<TaxiRide, EnrichedRideDemo> {
