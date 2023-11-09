@@ -1,5 +1,7 @@
-package com.john.flink.common;
+package com.john.flink.common.dto;
 
+import com.john.flink.common.DataGenerator;
+import com.john.flink.common.GeoUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.apache.flink.annotation.VisibleForTesting;
@@ -19,9 +21,11 @@ import java.time.Instant;
 @AllArgsConstructor
 public class TaxiRide implements Serializable, Comparable<TaxiRide> {
 
+    private static final long serialVersionUID = -1454881879252739788L;
     public long rideId;
     public boolean isStart;
     public Instant eventTime;
+
     public float startLon;
     public float startLat;
     public float endLon;

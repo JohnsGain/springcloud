@@ -1,7 +1,7 @@
 package com.john.flink.ridecleanse.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.john.flink.common.TaxiRide;
+import com.john.flink.common.dto.TaxiRide;
 import com.john.flink.common.test.ComposedPipeline;
 import com.john.flink.common.test.ExecutablePipeline;
 import com.john.flink.common.test.ParallelTestSource;

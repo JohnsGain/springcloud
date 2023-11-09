@@ -1,6 +1,6 @@
 package com.john.flink.common.source;
 
-import com.john.flink.common.TaxiRide;
+import com.john.flink.common.dto.TaxiRide;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
 import java.util.*;

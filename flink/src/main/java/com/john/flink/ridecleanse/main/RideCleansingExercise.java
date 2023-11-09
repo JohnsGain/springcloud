@@ -1,7 +1,7 @@
 package com.john.flink.ridecleanse.main;
 
 import com.john.flink.common.MissingSolutionException;
-import com.john.flink.common.TaxiRide;
+import com.john.flink.common.dto.TaxiRide;
 import com.john.flink.common.source.TaxiRideGenerator;
 import org.apache.flink.api.common.JobExecutionResult;
 import org.apache.flink.api.common.functions.FilterFunction;

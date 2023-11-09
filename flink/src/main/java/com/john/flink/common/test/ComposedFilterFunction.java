@@ -1,7 +1,7 @@
 package com.john.flink.common.test;
 
 import com.john.flink.common.MissingSolutionException;
-import com.john.flink.common.TaxiRide;
+import com.john.flink.common.dto.TaxiRide;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

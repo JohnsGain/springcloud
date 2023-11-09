@@ -1,6 +1,6 @@
 package com.john.flink.ridecleanse.test;
 
-import com.john.flink.common.TaxiRide;
+import com.john.flink.common.dto.TaxiRide;
 import com.john.flink.common.test.ComposedFilterFunction;
 import com.john.flink.ridecleanse.main.RideCleansingExercise;
 import com.john.flink.ridecleanse.solution.RideCleansingSolution;

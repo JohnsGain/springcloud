@@ -2,7 +2,7 @@ package com.john.flink.demo;
 
 
 import com.john.flink.common.GeoUtils;
-import com.john.flink.common.TaxiRide;
+import com.john.flink.common.dto.TaxiRide;
 import com.john.flink.common.source.TaxiRideGenerator;
 import com.john.flink.ridecleanse.solution.RideCleansingSolution;
 import lombok.Data;
