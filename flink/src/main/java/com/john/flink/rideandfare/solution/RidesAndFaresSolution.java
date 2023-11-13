@@ -6,6 +6,7 @@ import com.john.flink.common.dto.TaxiRide;
 import com.john.flink.common.source.TaxiFareGenerator;
 import com.john.flink.common.source.TaxiRideGenerator;
 import org.apache.flink.api.common.JobExecutionResult;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.PrintSinkFunction;
@@ -68,8 +69,15 @@ public class RidesAndFaresSolution {
         // Setting up checkpointing so that the state can be explored with the State Processor API.
         // Generally it's better to separate configuration settings from the code,
         // but for this example it's convenient to have it here for running in the IDE.
-
-        solution.execute();
+        Configuration conf = new Configuration();
+        conf.setString("state.backend", "filesystem");
+        conf.setString("state.checkpoints.dir", "file:///tmp/checkpoints");
+        conf.setString("execution.checkpointing.interval", "10s");
+        conf.setString(
+                "execution.checkpointing.externalized-checkpoint-retention",
+                "RETAIN_ON_CANCELLATION");
+        StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment(conf);
+        solution.execute(environment);
     }
 
 }

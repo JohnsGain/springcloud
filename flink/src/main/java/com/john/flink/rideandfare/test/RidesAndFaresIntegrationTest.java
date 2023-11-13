@@ -1,5 +1,6 @@
 package com.john.flink.rideandfare.test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.john.flink.common.dto.RideAndFare;
 import com.john.flink.common.dto.TaxiFare;
 import com.john.flink.common.dto.TaxiRide;
@@ -8,10 +9,14 @@ import com.john.flink.common.test.ExecutableTwoInputPipeline;
 import com.john.flink.common.test.ParallelTestSource;
 import com.john.flink.common.test.TestSink;
 import com.john.flink.rideandfare.main.RidesAndFaresExercise;
+import com.john.flink.rideandfare.solution.RidesAndFaresSolution;
+import org.apache.flink.api.common.JobExecutionResult;
 import org.apache.flink.runtime.testutils.MiniClusterResourceConfiguration;
 import org.apache.flink.test.util.MiniClusterWithClientResource;
 import org.junit.ClassRule;
 import org.junit.Test;
+
+import java.util.List;
 
 /**
  * @author zhangjuwa
@@ -55,7 +60,11 @@ public class RidesAndFaresIntegrationTest extends RidesAndFaresTestBase {
 
         TestSink<RideAndFare> testSink = new TestSink<>();
 
-
+        ComposedTwoInputPipeline<TaxiRide, TaxiFare, RideAndFare> faresPipeline = this.ridesAndFaresPipeline();
+        JobExecutionResult execute = faresPipeline.execute(rides, fares, testSink);
+        List<RideAndFare> results = testSink.getResults(execute);
+        ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println(objectMapper.writeValueAsString(results));
     }
 
     protected ComposedTwoInputPipeline<TaxiRide, TaxiFare, RideAndFare> ridesAndFaresPipeline() {
@@ -63,9 +72,9 @@ public class RidesAndFaresIntegrationTest extends RidesAndFaresTestBase {
                 new RidesAndFaresExercise(a, b, c)
                         .execute();
 
-        ExecutableTwoInputPipeline<TaxiRide, TaxiFare, RideAndFare> solution = (a, b, c) -> {
-            return null;
-        };
+        ExecutableTwoInputPipeline<TaxiRide, TaxiFare, RideAndFare> solution = (a, b, c) ->
+                new RidesAndFaresSolution(a, b, c)
+                        .execute();
 
         return new ComposedTwoInputPipeline<>(exercise, solution);
     }
