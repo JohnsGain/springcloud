@@ -25,16 +25,16 @@ public class IterativeStreamDemo {
         IterativeStream<IterationNum> iterativeStream = operator.iterate();
         // 做数据的map处理， 就是value - 1
         SingleOutputStreamOperator<IterationNum> minusOne = iterativeStream.map(item -> {
-            item.setIterationNum(item.iterationNum--);
-            item.setValue(item.value++);
+            item.setValue(item.getValue() - 1);
+            item.setIterationNum(item.getIterationNum() + 1);
             return item;
         });
         // 大于0的数据是需要重复迭代的
-        SingleOutputStreamOperator<IterationNum> stillGreaterThanZero = minusOne.filter(item -> item.getIterationNum() > 0);
+        SingleOutputStreamOperator<IterationNum> stillGreaterThanZero = minusOne.filter(item -> item.getValue() > 0);
         iterativeStream.closeWith(stillGreaterThanZero);
 
         // <= 0的数据是要输出的
-        SingleOutputStreamOperator<IterationNum> lessThanZero = minusOne.filter(item -> item.getIterationNum() <= 0);
+        SingleOutputStreamOperator<IterationNum> lessThanZero = minusOne.filter(item -> item.getValue() <= 0);
         System.out.println("小于0的");
         lessThanZero.print();
         env.execute("test iterativeStream");
