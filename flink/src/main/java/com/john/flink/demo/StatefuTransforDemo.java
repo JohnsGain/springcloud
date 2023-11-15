@@ -37,6 +37,12 @@ public class StatefuTransforDemo {
         environment.execute();
     }
 
+    /**
+     * DataStream,DataStream → ConnectedStream #
+     * “Connects” two data streams retaining their types. Connect allowing for shared state between the two streams.
+     *
+     * @throws Exception
+     */
     @Test
     public void connectedStream() throws Exception {
         StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
