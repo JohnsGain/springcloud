@@ -1,11 +1,14 @@
 package com.john.flink.demo;
 
+import com.john.flink.demo.windowjoin.OrderItem;
+import com.john.flink.demo.windowjoin.OrderItemRichSourceFunction;
 import com.john.flink.demo.windowjoin.WindowJoinDemo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.CoGroupFunction;
 import org.apache.flink.api.common.functions.FlatMapFunction;
+import org.apache.flink.api.common.functions.Partitioner;
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
@@ -366,6 +369,57 @@ public class TransformationDemo {
     @Test
     public void cache() {
 
+    }
+
+    //  ============== Physical Partitioning   ==============
+
+    /**
+     * Custom Partitioning
+     */
+    @Test
+    public void customPartitioning() {
+        StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
+        DataStreamSource<OrderItem> addedSource = environment.addSource(new OrderItemRichSourceFunction());
+        DataStream<OrderItem> someKey = addedSource.partitionCustom(new Partitioner<Object>() {
+            @Override
+            public int partition(Object key, int numPartitions) {
+                return 0;
+            }
+        }, "someKey");
+    }
+
+    /**
+     * DataStream → DataStream
+     * Partitions elements randomly according to a uniform distribution.
+     */
+    @Test
+    public void randomPartitioning() {
+        StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
+        DataStreamSource<OrderItem> addedSource = environment.addSource(new OrderItemRichSourceFunction());
+        DataStream<OrderItem> shuffle = addedSource.shuffle();
+
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void rescaling() {
+        StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
+        DataStreamSource<OrderItem> addedSource = environment.addSource(new OrderItemRichSourceFunction());
+        DataStream<OrderItem> rescale = addedSource.rescale();
+
+    }
+
+    /**
+     * DataStream → DataStream #
+     * Broadcasts elements to every partition.
+     */
+    @Test
+    public void broadcasting() {
+        StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
+        DataStreamSource<OrderItem> addedSource = environment.addSource(new OrderItemRichSourceFunction());
+        DataStream<OrderItem> broadcast = addedSource.broadcast();
     }
 
     private Person[] getList(int size) {
