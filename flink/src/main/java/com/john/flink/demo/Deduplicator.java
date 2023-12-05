@@ -17,7 +17,7 @@ import org.apache.flink.util.Collector;
  */
 public class Deduplicator extends RichFlatMapFunction<Person, Person> {
 
-
+    //b18237180984
     private static final long serialVersionUID = -3064733862813487485L;
     /**
      * 用于存储 和 每个 事件key对应的状态

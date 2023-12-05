@@ -61,7 +61,7 @@ public class TransformationDemo {
                 Integer age1 = value1.age;
                 Integer age2 = value2.getAge();
 
-                return age1 >= age2 ? value1 : value2;
+                return new Person(value1.name + value2.name, value1.age + value2.age, value1.country);
             }
         });
 
@@ -429,7 +429,7 @@ public class TransformationDemo {
             Person person = new Person();
             objects[i] = person;
             person.setCountry(arr[RandomUtils.nextInt(0, arr.length)]);
-            person.setAge(RandomUtils.nextInt(0, 10));
+            person.setAge(RandomUtils.nextInt(0, 100));
             person.setName(RandomStringUtils.random(5, "ASDFGJHK1234578"));
         }
         return objects;

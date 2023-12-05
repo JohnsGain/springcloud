@@ -1,5 +1,6 @@
 package com.john.flink.demo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Data;
  * @since jdk17
  */
 @Data
+@AllArgsConstructor
 public class Person {
 
     public String name;
