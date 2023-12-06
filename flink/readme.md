@@ -18,7 +18,7 @@ public class Demo {
 * join 合并两个流，需要满足以各自某个字段的值相等 作为 合并条件
 * union 可以对2个以及2个以上流进行合并
 
-## **stateful-stream-processing**
+## 2. **stateful-stream-processing**
 
 ### 有状态流处理的几种场景：
 
@@ -59,5 +59,40 @@ public class Demo {
 
 ### Savepoints
 
-Savepoints 是 人工触发的checkpoint
+* Savepoints 是 人工触发的checkpoint
+* Note that savepoints will always be aligned.
+* Savepoints are similar to checkpoints except that they are triggered by the user and
+  don’t automatically expire when newer checkpoints are completed.
+
+### align 流对齐
+
+> * 从多个输入流接受事件的算子，当从其中某个输入流接受到stream barrier之后，不会再处理来自这个
+    > 输入流的更多事件。直到所有的输入流的stream barrier都到达算子之后，才会处理新进来
+> * 当最后一个输入流的stream barrier到达 算子，就会把挂起待处理的所有记录发送到下游
+> * 它对状态进行快照，并从所有输入流中恢复处理记录，在处理来自流的记录之前处理来自输入缓冲区的记录。
+> * 最后，算子会把状态保存到 状态后端
+>
+
+### Snapshotting Operator State
+
+> When operators contain any form of state, this state must be part of the snapshots as well.
+
+#### The resulting snapshot now contains:
+
+* For each parallel stream data source, the offset/position in the stream when the snapshot was started
+* For each operator, a pointer to the state that was stored as part of the snapshot
+
+## 3.Streaming Analytics
+
+### Event Time
+
+flink提供3个时间概念
+
+* event time: the time when an event occurred, as recorded by the device producing (or storing) the event
+
+* ingestion time: a timestamp recorded by Flink at the moment it ingests the event
+
+* processing time: the time when a specific operator in your pipeline is processing the event
+
+### Watermarks
 
