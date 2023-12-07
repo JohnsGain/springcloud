@@ -96,3 +96,39 @@ flink提供3个时间概念
 
 ### Watermarks
 
+* 水印是一个时间戳，Flink可以给数据流添加水印来解决数据延迟的问题。
+* 水印并不会影响原有的EventTime时间
+* 当数据流添加水印后，会按照水印时间来触发窗口计算。
+* 一般设置水印时间，比事件时间小几秒钟，表示最大允许数据延迟达到多久。
+* 水印时间 = 事件时间 - 允许延迟时间
+* 当接收到的 水印时间 >= 窗口结束时间，则触发计算 如等到一条数据的水印时间为10:10:00 >= 10:10:00
+  才触发计算,也就是要等到事件时间为10:10:03的数据到来才触发计算：(即事件时间 - 允许延迟时间 >= 窗口结束时间 或
+  事件时间 >= 窗口结束时间 + 允许延迟时间)
+
+### window
+
+* tumbling window: 基于事件和时间两种
+  tumbing time window ; tumbling count window
+
+> 时间对齐，窗口长度固定，没有重叠。
+
+* sliding window： 基于事件和时间两种
+
+> 时间不是对齐，窗口长度固定，会有重叠计算
+> sliding time win; sliding count win
+
+* session window
+
+> 一个session窗口通过一个session间隔来配置，这个session间隔定义了非活跃周期的长度，当这个非活跃周期产生，那么当前的session将关闭并且后续的元素将被分配到新的session窗口中去
+
+* global window
+
+### 使用 processing time 会有一些不足
+
+> 不足
+> * can not correctly process historic data,
+> * can not correctly handle out-of-order data,
+> * results will be non-deterministic,
+
+> 优势
+> * f lower latency.

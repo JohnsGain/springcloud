@@ -33,6 +33,7 @@ import java.util.List;
  * @apiNote
  * @date 2023-11-14 00:01
  * @since jdk17
+ * https://nightlies.apache.org/flink/flink-docs-master/docs/dev/datastream/operators/overview/#datastream-transformations
  */
 public class TransformationDemo {
 
