@@ -92,7 +92,7 @@ public class TransformationDemo {
 
         KeyedStream<Tuple2<String, Integer>, String> keyedBy = flattedMap.keyBy(item -> item.f0);
         WindowedStream<Tuple2<String, Integer>, String, TimeWindow> window = keyedBy.window(
-                TumblingProcessingTimeWindows.of(Time.seconds(5)));
+                TumblingEventTimeWindows.of(Time.seconds(5)));
 
 //        window.
     }
@@ -128,7 +128,7 @@ public class TransformationDemo {
         });
         KeyedStream<Tuple2<String, Integer>, String> keyedBy = flattedMap.keyBy(item -> item.f0);
         WindowedStream<Tuple2<String, Integer>, String, TimeWindow> windowedStream = keyedBy.window(
-                TumblingProcessingTimeWindows.of(Time.seconds(5)));
+                TumblingEventTimeWindows.of(Time.seconds(5)));
         SingleOutputStreamOperator<String> applyStream = windowedStream.apply(new WindowFunction<Tuple2<String, Integer>, String, String, TimeWindow>() {
             @Override
             public void apply(String s, TimeWindow window, Iterable<Tuple2<String, Integer>> values, Collector<String> out) throws Exception {
@@ -239,7 +239,6 @@ public class TransformationDemo {
     /**
      * DataStream,DataStream → DataStream #
      * Join two data streams on a given key and a common window.
-     *
      * @throws Exception
      * @see WindowJoinDemo
      */
@@ -330,7 +329,7 @@ public class TransformationDemo {
      * DataStream,DataStream → ConnectedStream #
      * “Connects” two data streams retaining their types. Connect allowing for shared state between the two streams.
      *
-     * @see {@link StatefuTransforDemo#connectedStream()}
+     * @see {@link StatefulTransformDemo#connectedStream()}
      */
     @Test
     public void connectedStream() {
@@ -342,7 +341,7 @@ public class TransformationDemo {
      * ConnectedStream → DataStream #
      * Similar to map and flatMap on a connected data stream
      *
-     * @see {@link StatefuTransforDemo#connectedStream()}
+     * @see {@link StatefulTransformDemo#connectedStream()}
      */
     @Test
     public void coMapAndCoFlatMap() {
@@ -401,7 +400,7 @@ public class TransformationDemo {
     }
 
     /**
-     *
+     * 重新调节
      */
     @Test
     public void rescaling() {
@@ -414,12 +413,26 @@ public class TransformationDemo {
     /**
      * DataStream → DataStream #
      * Broadcasts elements to every partition.
+     * 广播
      */
     @Test
     public void broadcasting() {
         StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
         DataStreamSource<OrderItem> addedSource = environment.addSource(new OrderItemRichSourceFunction());
         DataStream<OrderItem> broadcast = addedSource.broadcast();
+    }
+
+    /**
+     * Chaining two subsequent transformations means co-locating them within the same thread for better performance. Flink by default chains operators
+     * if this is possible (e.g., two subsequent map transformations). The API gives fine-grained control over chaining if desired:
+     */
+    @Test
+    public void taskChaining(){
+        StreamExecutionEnvironment executionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment();
+        // 可以禁用 taskChaining
+        executionEnvironment.disableOperatorChaining();
+        // The two mappers will be chained, and filter will not be chained to the first mapper.
+//        someStream.filter(...).map(...).startNewChain().map(...);
     }
 
     private Person[] getList(int size) {

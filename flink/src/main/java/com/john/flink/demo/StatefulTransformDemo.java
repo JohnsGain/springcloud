@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2023-11-09 00:51
  * @since jdk17
  */
-public class StatefuTransforDemo {
+public class StatefulTransformDemo {
 
     /**
      * 去重
