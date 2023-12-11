@@ -132,3 +132,52 @@ flink提供3个时间概念
 
 > 优势
 > * f lower latency.
+
+### Late Events 迟到事件的两种处理方式
+
+#### 默认情况下，迟到事件会被丢弃，除此之外，flink提供了两种额外方式来处理迟到事件
+
+* sideOutputLateData
+
+ ```java
+ public class Demo {
+    public void test() {
+        OutputTag<Event> lateTag = new OutputTag<Event>("late") {
+        };
+
+        SingleOutputStreamOperator<Event> result = stream
+                .keyBy(...)
+     .window(...)
+     .sideOutputLateData(lateTag)
+                .process(...);
+
+        DataStream<Event> lateStream = result.getSideOutput(lateTag);
+    }
+}
+ ```
+
+* allowedLateness
+
+```java
+public class Demo {
+    public void test() {
+        stream
+                .keyBy(...)
+                .window(...)
+                .allowedLateness(Time.seconds(10))
+                .process(...);
+    }
+}
+```
+
+### Surprises  窗口函数可能出现的意想不到的情况
+
+> Some aspects of Flink’s windowing API may not behave in the way you would expect. Based on frequently asked questions
+> on the flink-user mailing list and elsewhere, here are some facts about windows that may surprise you.
+
+* 滑动窗口的事件 可能被复制到多个窗口
+* 基于时间的窗口， 窗口时间范围是按照 操作系统整点时间来划分窗口的，比如一个 1小时划分一个窗口
+  的程序，程序在12.05分启动，它的第一个窗口是在13点结束，而不是13.05分
+* Windows Can Follow Windows， window函数后面可以跟着 windowAll
+* 没有事件生成的窗口
+* 延迟事件可能产生合并
