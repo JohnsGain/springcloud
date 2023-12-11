@@ -33,6 +33,7 @@ import java.util.List;
  * @apiNote
  * @date 2023-11-14 00:01
  * @since jdk17
+ * https://nightlies.apache.org/flink/flink-docs-master/docs/dev/datastream/operators/overview/#datastream-transformations
  */
 public class TransformationDemo {
 
@@ -61,7 +62,7 @@ public class TransformationDemo {
                 Integer age1 = value1.age;
                 Integer age2 = value2.getAge();
 
-                return age1 >= age2 ? value1 : value2;
+                return new Person(value1.name + value2.name, value1.age + value2.age, value1.country);
             }
         });
 
@@ -442,7 +443,7 @@ public class TransformationDemo {
             Person person = new Person();
             objects[i] = person;
             person.setCountry(arr[RandomUtils.nextInt(0, arr.length)]);
-            person.setAge(RandomUtils.nextInt(0, 10));
+            person.setAge(RandomUtils.nextInt(0, 100));
             person.setName(RandomStringUtils.random(5, "ASDFGJHK1234578"));
         }
         return objects;
