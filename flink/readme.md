@@ -1,4 +1,4 @@
-# flink 学习
+# 1.flink 学习
 
 ## connected join union 这几种可以合并流 的算子的区别
 
@@ -20,36 +20,52 @@ public class Demo {
 
 ## 2. **stateful-stream-processing**
 
-### 有状态流处理的几种场景：
+### 2.1 有状态流处理的几种场景：
 
 * 当需要按某个事件模型搜索对应的事件时，需要按事件发生顺序记住到目前为止流过的事件
 * 需要按每min/h/day 聚合事件时，需要保存某个时间段待处理的事件
 * 当使用一个事件流来训练机器学习模型时，需要用状态记住当前版本的模型参数
 * 当需要管理历史数据，状态可以高效地访问到历史数据
 
-### Flink’s state backends.
+### 2.2 Flink’s state backends.
 
 > flink 有不同的状态后端， 每种状态后端有针对状态的存储方式和存储位置有不同的实现
 >
 
-### Keyed State
+### 2.3 Keyed State
 
 > 内置的k-v 存储容器，仅适用于 keyed stream
 >
 
-### State Persistence
+### 2.4 State Persistence
 
 > flink 借助于 stream replay and checkpointing 这两个特点实现了 容错的能力。checkpointing 就是需要不断抓取
 > 事件流和 算子状态 的快照
 >
 
-### Barriers
+#### 2.4.1 Unaligned Checkpointing
+
+* 不对齐checkpoint 更接近 Chandy-Lamport algorithm。
+* 不对齐checkpoint可以让每个stream barrier尽快到达sink算子
+* 适用于那种对齐checkpoint需要等待大量时间的场景
+
+#### 2.4.2 Unaligned Recovery
+
+Operators first recover the in-flight data before starting processing any data from upstream operators in unaligned
+checkpointing. Aside from that, it performs the same steps as during recovery of aligned checkpoints.
+
+#### 2.4.3 Exactly Once vs. At Least Once
+
+* flink有一个开关可以禁用在做checkpoint的时候的 对齐操作， 对那些需要对整个事件流保持
+  低延迟(几毫秒内)的场景特别有用
+
+### 2.5 Barriers
 
 * A core element in Flink’s distributed snapshotting are the stream barriers
 * 是注入到事件流里面，作为事件流的一部分， 跟着事件流一起流动。
 * stream barrier分离的不同的snapshot 块，超过stream barrier的进入下一个snapshot
 
-### State and Fault Tolerance in Batch Programs
+### 2.6 State and Fault Tolerance in Batch Programs
 
 > flink把批处理作为特殊的流处理， 流处理的很多特点也适用于批处理，但是也有少量不同点
 > * 由于批处理数据是有限的，批处理容错回复是从数据的最开始重新执行。这就导致 一旦批处理发生容错，
@@ -57,14 +73,16 @@ public class Demo {
 > * 批处理中状态后端 使用简单的 内存数据结构，不是 key/value indexes.
 >
 
-### Savepoints
+### 2.7 Savepoints
 
 * Savepoints 是 人工触发的checkpoint
 * Note that savepoints will always be aligned.
 * Savepoints are similar to checkpoints except that they are triggered by the user and
   don’t automatically expire when newer checkpoints are completed.
+* All programs that use checkpointing can resume execution from a savepoint. Savepoints allow both updating your
+  programs and your Flink cluster without losing any state.
 
-### align 流对齐
+### 2.8 align 流对齐
 
 > * 从多个输入流接受事件的算子，当从其中某个输入流接受到stream barrier之后，不会再处理来自这个
     > 输入流的更多事件。直到所有的输入流的stream barrier都到达算子之后，才会处理新进来
@@ -73,14 +91,26 @@ public class Demo {
 > * 最后，算子会把状态保存到 状态后端
 >
 
-### Snapshotting Operator State
+### 2.9 Snapshotting Operator State
 
 > When operators contain any form of state, this state must be part of the snapshots as well.
 
-#### The resulting snapshot now contains:
+#### 2.9.1 The resulting snapshot now contains:
 
 * For each parallel stream data source, the offset/position in the stream when the snapshot was started
 * For each operator, a pointer to the state that was stored as part of the snapshot
+
+#### 2.9.2 recovery
+
+> 发生故障(硬件，网络，程序),flink会选取最新一次成功的checkpoint k,程序会重新部署整个分布式数据处理流，
+> 每个算子会恢复 到和与checkpoint k一起保存的算子状态,source算子重新从位置Sk 读取事件流。例如使用
+> kafka数据源，意味着将从偏移量Sk处理拉取消息消费。
+> Upon a failure, Flink selects the latest completed checkpoint k. The system then re-deploys the entire distributed
+> dataflow, and gives each operator the state that was snapshotted as part of checkpoint k. The sources are set to start
+> reading the stream from position Sk. For example in Apache Kafka, that means telling the consumer to start fetching from
+> offset Sk.
+> If state was snapshotted incrementally, the operators start with the state of the latest full snapshot and then apply
+> a series of incremental snapshot updates to that state.
 
 ## 3.Streaming Analytics
 

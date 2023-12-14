@@ -1,4 +1,4 @@
-package com.john.flink.demo;
+package com.john.flink.demo.window;
 
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;

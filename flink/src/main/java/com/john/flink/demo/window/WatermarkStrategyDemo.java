@@ -1,5 +1,6 @@
-package com.john.flink.demo;
+package com.john.flink.demo.window;
 
+import com.john.flink.demo.Person;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;

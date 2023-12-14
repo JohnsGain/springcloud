@@ -1,4 +1,4 @@
-package com.john.flink.demo;
+package com.john.flink.demo.window;
 
 import org.apache.flink.api.common.functions.ReduceFunction;
 

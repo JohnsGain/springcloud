@@ -1,4 +1,4 @@
-package com.john.flink.demo;
+package com.john.flink.demo.window;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.flink.configuration.Configuration;
