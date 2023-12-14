@@ -70,9 +70,24 @@ public class KeyedProcessFunctionDemo {
         }
 
         // Called when the current watermark indicates that a window is now complete.
+        // 
         @Override
         public void onTimer(long timestamp, KeyedProcessFunction<Long, TaxiFare, Tuple3<Long, Long, Double>>.OnTimerContext ctx, Collector<Tuple3<Long, Long, Double>> out) throws Exception {
-            super.onTimer(timestamp, ctx, out);
+            //  currentKey is driverId
+            Long currentKey = ctx.getCurrentKey();
+            // Look up the result for the hour that just ended.
+            Double tips = sumOfTips.get(currentKey);
+            Tuple3<Long, Long, Double> tuple3 = Tuple3.of(currentKey, timestamp, tips);
+            out.collect(tuple3);
+            sumOfTips.remove(currentKey);
+//  Observations:
+
+//  The OnTimerContext context passed in to onTimer can be used to determine the current key.
+
+//   Our pseudo-windows are being triggered when the current watermark reaches the end of each hour,
+//   at which point onTimer is called. This onTimer method removes the related entry from sumOfTips,
+//   which has the effect of making it impossible to accommodate late events. This is the equivalent
+//   of setting the allowedLateness to zero when working with Flink’s time windows
         }
 
 
@@ -85,7 +100,24 @@ public class KeyedProcessFunctionDemo {
                 // This event is late; its window has already been triggered.
             } else {
                 // Round up eventTime to the end of the window containing this event.
+                long endOfWindow = (eventTimeMillis - (eventTimeMillis % durationMsec) + durationMsec - 1);
+                // Schedule a callback for when the window has been completed.
+                timerService.registerEventTimeTimer(endOfWindow);
+                // Add this fare's tip to the running total for that window.
+                Double sumTips = sumOfTips.get(endOfWindow);
+                if (sumTips == null) {
+                    sumTips = 0D;
+                }
+                float tip = value.getTip();
+                sumOfTips.put(endOfWindow, sumTips + tip);
             }
+// Things to consider:
+//
+// What happens with late events? Events that are behind the watermark (i.e., late) are being dropped.
+// If you want to do something better than this, consider using a side output, which is explained in the next section.
+//
+// This example uses a MapState where the keys are timestamps, and sets a Timer for that same timestamp.
+// This is a common pattern; it makes it easy and efficient to lookup relevant information when the timer fires.
         }
 
     }
