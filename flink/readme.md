@@ -1,5 +1,14 @@
 # 1.flink 学习
 
+## 0. flink 基本组成结构
+
+JobManager:
+任务调度
+checkpoint coordinator
+
+TaskManager:
+一个TaskManager 可以是一个容器或一太机器，一个机器里面可以执行并发执行多个任务slot
+
 ## connected join union 这几种可以合并流 的算子的区别
 
 * connected : 可以合并不同类型的两个流，保留他们原本的类型

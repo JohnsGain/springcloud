@@ -9,3 +9,15 @@ must be true:
 
 * your sources must be replayable, and
 * your sinks must be transactional (or idempotent)
+
+### Checkpoint Storage
+
+The location where these snapshots are stored is defined via the jobs checkpoint storage. Two implementations of
+checkpoint storage are available
+
+* FileSystemCheckpointStorage ： Distributed file system
+  * Supports very large state size
+  * Highly durable
+  * Recommended for production deployments
+* JobManagerCheckpointStorage ： JobManager JVM Heap
+  * Good for testing and experimentation with small state (locally)
