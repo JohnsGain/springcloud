@@ -110,6 +110,12 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
         </dependency>
-
+        <!--  If you want to use the EmbeddedRocksDBStateBackend in your IDE or configure it programmatically in your Flink job-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-statebackend-rocksdb</artifactId>
+            <version>1.17.1</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>
