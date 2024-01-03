@@ -117,6 +117,7 @@
         <module>flowable</module>
         <module>spring-batch</module>
         <module>flink</module>
+        <module>flinkfrauddetection</module>
     </modules>
 
 
