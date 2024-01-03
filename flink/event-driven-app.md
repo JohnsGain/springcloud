@@ -9,4 +9,9 @@
 
 ProcessFunctions 类型的接口有多个，如 KeyedProcessFunction， CoProcessFunctions，BroadcastProcessFunctions, etc
 
+## 2. 有几种情况会出现多个output stream
 
+* exceptions
+* malformed events
+* late events
+* operational alerts, such as timed-out connections to external services

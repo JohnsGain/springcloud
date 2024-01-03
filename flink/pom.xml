@@ -117,5 +117,12 @@
             <version>1.17.1</version>
             <scope>provided</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-walkthrough-common -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-walkthrough-common</artifactId>
+            <version>1.17.2</version>
+        </dependency>
+
     </dependencies>
 </project>
