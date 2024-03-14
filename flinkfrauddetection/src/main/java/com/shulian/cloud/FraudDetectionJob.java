@@ -5,6 +5,7 @@ import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.walkthrough.common.entity.Alert;
 import org.apache.flink.walkthrough.common.entity.Transaction;
+import org.apache.flink.walkthrough.common.sink.AlertSink;
 import org.apache.flink.walkthrough.common.source.TransactionSource;
 
 /**
@@ -25,7 +26,8 @@ public class FraudDetectionJob {
                 .process(new FraudDetector())
                 .name("fraud-detector");
 
-        alerts.print()
+        alerts
+                .addSink(new AlertSink())
                 .name("send-alerts");
 
         environment.execute("Fraud Detection");
